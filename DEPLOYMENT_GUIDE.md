@@ -58,20 +58,34 @@ The `.env.prod` file has been created with your specific credentials. Verify it 
 cat .env.prod
 ```
 
-**Expected content:**
+**Create the `.env.prod` file from the example template:**
+```bash
+# Copy the example file
+cp .env.prod.example .env.prod
+
+# Edit with your actual credentials
+nano .env.prod
+```
+
+**Your `.env.prod` should contain:**
 ```env
 DEBUG=0
-SECRET_KEY=-fdQJXbHtTAfuLv3Bqx8nfbJx1sbUAIX6sXN4MT5b65SZH9S6gWAIYFFpSRLMrwNrRw
+SECRET_KEY=your-generated-secret-key-here
 DJANGO_ALLOWED_HOSTS=api.prayerpulse.io prayerpulse.io localhost 127.0.0.1
-POSTGRES_USER=prayerpulse
-POSTGRES_PASSWORD=@Evannah_jf%77!
-POSTGRES_DB=prayerpulse_bible
+POSTGRES_USER=your_database_user
+POSTGRES_PASSWORD=your_secure_database_password
+POSTGRES_DB=your_database_name
 EMAIL_HOST_USER=
 EMAIL_HOST_PASSWORD=
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY=
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET=
 SOCIAL_AUTH_GITHUB_KEY=
 SOCIAL_AUTH_GITHUB_SECRET=
+```
+
+**Generate a secure secret key:**
+```bash
+python3 -c 'import secrets; print(secrets.token_urlsafe(50))'
 ```
 
 **⚠️ IMPORTANT**: Keep this file secure and never commit it to version control!
