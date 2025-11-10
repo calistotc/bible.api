@@ -32,9 +32,9 @@ if DEBUG:
     ALLOWED_HOSTS = ["*"]
 else:
     ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", "*").split(" ")
-CSRF_TRUSTED_ORIGINS = ["https://bolls.life", "https://dev.bolls.life"]
+CSRF_TRUSTED_ORIGINS = ["https://api.prayerpulse.io", "https://prayerpulse.io"]
 if DEBUG:
-    CSRF_TRUSTED_ORIGINS.append("https://bolls.local")
+    CSRF_TRUSTED_ORIGINS.append("http://localhost:8000")
 
 # Application definition
 INSTALLED_APPS = [
@@ -139,7 +139,7 @@ USE_TZ = True
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 STATIC_URL = "/static/"
 
-ADMINS = [("Bohuslav", "bpavlisinec@gmail.com")]
+ADMINS = [("PrayerPulse Admin", "admin@prayerpulse.io")]
 
 LOGOUT_REDIRECT_URL = "/"
 LOGIN_REDIRECT_URL = "/"

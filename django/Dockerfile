@@ -6,7 +6,7 @@
 FROM python AS builder
 
 # set work directory
-WORKDIR /usr/src/bolls
+WORKDIR /usr/src/prayerpulse
 
 # set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
@@ -21,7 +21,7 @@ RUN pip install --upgrade pip
 
 # install dependencies
 COPY ./requirements.txt .
-RUN pip wheel --no-cache-dir --no-deps --wheel-dir /usr/src/bolls/wheels -r requirements.txt
+RUN pip wheel --no-cache-dir --no-deps --wheel-dir /usr/src/prayerpulse/wheels -r requirements.txt
 
 
 #########
@@ -31,38 +31,37 @@ RUN pip wheel --no-cache-dir --no-deps --wheel-dir /usr/src/bolls/wheels -r requ
 # pull official base image
 FROM python
 
-# create directory for the bolls user
-RUN mkdir -p /home/bolls
+# create directory for the prayerpulse user
+RUN mkdir -p /home/prayerpulse
 
-# create the bolls user
-RUN addgroup bolls
-RUN adduser --group $bolls bollsuser
+# create the prayerpulse user
+RUN addgroup prayerpulse
+RUN adduser --group prayerpulse prayerpulseuser
 
 # create the appropriate directories
-ENV HOME=/home/bolls
-ENV BOLLS_HOME=/home/bolls/web
-RUN mkdir $BOLLS_HOME
-RUN mkdir $BOLLS_HOME/static
-WORKDIR $BOLLS_HOME
+ENV HOME=/home/prayerpulse
+ENV APP_HOME=/home/prayerpulse/web
+RUN mkdir $APP_HOME
+RUN mkdir $APP_HOME/static
+WORKDIR $APP_HOME
 
 # install dependencies
 RUN apt update -y && apt install -y netcat-traditional unzip
-COPY --from=builder /usr/src/bolls/wheels /wheels
-COPY --from=builder /usr/src/bolls/requirements.txt .
+COPY --from=builder /usr/src/prayerpulse/wheels /wheels
+COPY --from=builder /usr/src/prayerpulse/requirements.txt .
 RUN pip install --no-cache /wheels/*
 
 # copy entrypoint.sh
-COPY ./entrypoint.sh $BOLLS_HOME
+COPY ./entrypoint.sh $APP_HOME
 
 # copy project
-COPY . $BOLLS_HOME
+COPY . $APP_HOME
 
-# chown all the files to the bolls user
-RUN chown -R $bollsuser:$bolls $BOLLS_HOME
-# RUN chown $bollsuser:$bolls $DAPHNE
+# chown all the files to the prayerpulse user
+RUN chown -R prayerpulseuser:prayerpulse $APP_HOME
 
-# change to the bolls user
-USER $bollsuser
+# change to the prayerpulse user
+USER prayerpulseuser
 
 # run entrypoint.sh
-ENTRYPOINT ["/home/bolls/web/entrypoint.sh"]
+ENTRYPOINT ["/home/prayerpulse/web/entrypoint.sh"]

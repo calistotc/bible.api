@@ -1,0 +1,71 @@
+version: '3.8'
+
+services:
+  prayerpulse-db:
+    image: postgres:alpine
+    restart: always
+    container_name: prayerpulse-db
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    networks:
+      - web
+    volumes:
+      - prayerpulse_db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  prayerpulse-api:
+    build:
+      context: ./django/
+      dockerfile: Dockerfile
+    restart: always
+    command: gunicorn bain.wsgi:application --bind 0.0.0.0:8000 -t 300 --workers 3
+    container_name: prayerpulse-api
+    volumes:
+      - prayerpulse_static:/home/prayerpulse/web/static
+    ports:
+      - "8000:8000"
+    environment:
+      - DEBUG=${DEBUG}
+      - SECRET_KEY=${SECRET_KEY}
+      - DJANGO_ALLOWED_HOSTS=${DJANGO_ALLOWED_HOSTS}
+      - SQL_ENGINE=django.db.backends.postgresql
+      - SQL_DATABASE=${POSTGRES_DB}
+      - SQL_USER=${POSTGRES_USER}
+      - SQL_PASSWORD=${POSTGRES_PASSWORD}
+      - SQL_HOST=prayerpulse-db
+      - SQL_PORT=5432
+      - DATABASE=postgres
+      - EMAIL_HOST_PASSWORD=${EMAIL_HOST_PASSWORD:-}
+      - EMAIL_HOST_USER=${EMAIL_HOST_USER:-}
+      - SOCIAL_AUTH_GOOGLE_OAUTH2_KEY=${SOCIAL_AUTH_GOOGLE_OAUTH2_KEY:-}
+      - SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET=${SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET:-}
+      - SOCIAL_AUTH_GITHUB_KEY=${SOCIAL_AUTH_GITHUB_KEY:-}
+      - SOCIAL_AUTH_GITHUB_SECRET=${SOCIAL_AUTH_GITHUB_SECRET:-}
+    networks:
+      - web
+    depends_on:
+      prayerpulse-db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/get-text/YLT/1/1/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+volumes:
+  prayerpulse_db_data:
+    driver: local
+  prayerpulse_static:
+    driver: local
+
+networks:
+  web:
+    external: true
