@@ -36,7 +36,7 @@ RUN mkdir -p /home/prayerpulse
 
 # create the prayerpulse user
 RUN addgroup prayerpulse
-RUN adduser --group prayerpulse prayerpulseuser
+RUN adduser --ingroup prayerpulse --disabled-password --gecos "" prayerpulseuser
 
 # create the appropriate directories
 ENV HOME=/home/prayerpulse
