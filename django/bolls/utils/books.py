@@ -1,10 +1,13 @@
 import json
+import os
 
 from .score_search import score_search
 
 
 BOOKS = []
-with open("/imba/src/data/translations_books.json") as json_file:
+# Get the path relative to this file
+DATA_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'data')
+with open(os.path.join(DATA_DIR, "translations_books.json")) as json_file:
     BOOKS = json.load(json_file)
 
 
