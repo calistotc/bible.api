@@ -6,19 +6,85 @@
 	<meta charset="utf-8">
 	<meta http-equiv="x-ua-compatible" content="ie=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<title>404 Not Found</title>
+	<title>404 Not Found - Prayer Pulse API</title>
 	<link rel="apple-touch-icon" sizes="180x180" href="/static/apple-touch-icon.png">
 	<link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32x32.png">
 	<link rel="icon" type="image/png" sizes="16x16" href="/static/favicon-16x16.png">
-	<link rel="manifest" href="/static/site.webmanifest">
-	<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@1,900&display=swap" rel="stylesheet">
-	<link rel="stylesheet" href="/static/bolls/errors/app.css">
-</style>
+	<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
+		body {
+			font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+			background: #000000;
+			color: #ffffff;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			min-height: 100vh;
+			text-align: center;
+			padding: 2rem;
+		}
+		.error-container {
+			max-width: 600px;
+		}
+		h1 {
+			font-size: 8rem;
+			font-weight: 700;
+			color: #00d084;
+			margin-bottom: 1rem;
+			line-height: 1;
+		}
+		h2 {
+			font-size: 2rem;
+			font-weight: 700;
+			margin-bottom: 1rem;
+		}
+		p {
+			font-size: 1.125rem;
+			color: #a0a0a0;
+			margin-bottom: 2rem;
+			line-height: 1.6;
+		}
+		a {
+			display: inline-block;
+			padding: 0.875rem 2rem;
+			background: #00d084;
+			color: #000000;
+			text-decoration: none;
+			border-radius: 6px;
+			font-weight: 600;
+			transition: all 0.2s;
+		}
+		a:hover {
+			background: #00b36b;
+			transform: translateY(-2px);
+		}
+		.brand {
+			margin-top: 3rem;
+			font-size: 0.875rem;
+			color: #6e7681;
+		}
+		.brand strong {
+			color: #00d084;
+		}
+	</style>
 </head>
 
 <body>
-	<noscript>404 Not Found</noscript>
-	<script src="/static/bolls/errors/app.js"></script>
+	<div class="error-container">
+		<h1>404</h1>
+		<h2>Page Not Found</h2>
+		<p>The page you're looking for doesn't exist or has been moved.</p>
+		<a href="/bible/">View API Documentation</a>
+		<div class="brand">
+			<strong>Prayer Pulse</strong> Bible API
+		</div>
+	</div>
 </body>
 
 </html>

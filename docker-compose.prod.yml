@@ -24,7 +24,6 @@ services:
     container_name: WEB_CONTAINER_NAME
     volumes:
       - STATIC_VOLUME_NAME:/home/bolls/web/static
-      - IMBA_VOLUME_NAME:/imba
     expose:
       - 8000
     environment:
@@ -55,28 +54,6 @@ services:
       retries: 2
       start_period: 10s
 
-  IMBA_SERVICE_NAME-statics-initializer:
-    build:
-      context: ./imba/
-      dockerfile: Dockerfile
-    command: sh -c "cp -r /build/. /app/"
-    volumes:
-      - IMBA_VOLUME_NAME:/app
-    deploy:
-      restart_policy:
-        condition: none
-
-  IMBA_SERVICE_NAME:
-    build:
-      context: ./imba/
-      dockerfile: Dockerfile
-    restart: on-failure
-    container_name: IMBA_SERVICE_NAME
-    environment:
-      - API_URL=http://WEB_SERVICE_NAME:8000
-    networks:
-      - INTERNAL_NETWORK_NAME
-
 
   NGINX_SERVICE_NAME:
     build: ./nginx
@@ -90,7 +67,6 @@ services:
       - "traefik.webservice.frontend.entryPoints=http,https"
     volumes:
       - STATIC_VOLUME_NAME:/home/bolls/web/static
-      - IMBA_VOLUME_NAME:/imba
     networks:
       - INTERNAL_NETWORK_NAME
     depends_on:
@@ -112,7 +88,7 @@ services:
       - "--entrypoints.websecure.address=:443"
       - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
       # - "--certificatesresolvers.myresolver.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
-      - "--certificatesresolvers.myresolver.acme.email=bpavlisinec@gmail.com"
+      - "--certificatesresolvers.myresolver.acme.email=admin@prayerpulse.io"
       - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
     networks:
       - web
@@ -128,7 +104,6 @@ services:
 
 volumes:
   STATIC_VOLUME_NAME:
-  IMBA_VOLUME_NAME:
   DATABASE_VOLUME_SECRET:
     driver: local
 

@@ -29,7 +29,6 @@ services:
       - label:disable
     volumes:
       - ./django:/code
-      - ./imba/:/imba
     expose:
       - 8000
     ports:
@@ -37,7 +36,7 @@ services:
     environment:
       - DEBUG=1
       # - SECRET_KEY=SECRET_KEY_SECRET # use default one
-      - DJANGO_ALLOWED_HOSTS=bolls.local 127.0.0.1 localhost
+      - DJANGO_ALLOWED_HOSTS=prayerpulse.local 127.0.0.1 localhost
       - SQL_ENGINE=django.db.backends.postgresql
       - SQL_DATABASE=postgres_db
       - SQL_USER=postgres_user
@@ -66,30 +65,6 @@ services:
       retries: 2
       start_period: 10s
 
-  imba:
-    build:
-      context: ./imba/
-      dockerfile: Dockerfile.dev
-    restart: on-failure
-    container_name: imba
-    # command: npm i
-    # command: npm run dev
-    command: sh -c "npm i && npm run dev"
-    environment:
-      - API_URL=http://django:8000
-    # required for SELinux
-    security_opt:
-      - label:disable
-    volumes:
-      - ./imba:/app
-    expose:
-      - 3000
-    ports:
-      - 3000:3000
-    networks:
-      - internal
-      - web
-
   nginx:
     build: ./nginx_dev
     restart: on-failure
@@ -97,7 +72,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.nginx-router.tls=true"
-      - "traefik.http.routers.nginx-router.rule=Host(`bolls.local`)"
+      - "traefik.http.routers.nginx-router.rule=Host(`prayerpulse.local`)"
       # - "traefik.http.routers.nginx-router.service=whoami1_service"
       - "traefik.http.services.nginx-router.loadbalancer.server.port=80"
       # - "traefik.http.routers.nginx-router.tls.certresolver=myresolver"
@@ -108,7 +83,6 @@ services:
       - label:disable
     volumes:
       - ./django/bolls/static/:/home/bolls/web/static/:delegated
-      - ./imba/:/imba/:delegated
       - ./nginx_dev/nginx.conf:/etc/nginx/conf.d/nginx.conf
     networks:
       - internal
@@ -130,7 +104,7 @@ services:
       # - "--entrypoints.websecure.address=:443"
       # - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
       # - "--certificatesresolvers.myresolver.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
-      # - "--certificatesresolvers.myresolver.acme.email=bpavlisinec@gmail.com"
+      # - "--certificatesresolvers.myresolver.acme.email=admin@prayerpulse.io"
       # - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
     networks:
       - web

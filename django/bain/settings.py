@@ -27,7 +27,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY", "300lf8rl25%wq$cs$2^k$r-u16@58b7m%ljds
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = int(os.environ.get("DEBUG", default=0))
 
-# Something like: localhost 127.0.0.1 [::1] dev.bolls.life
+# Something like: localhost 127.0.0.1 [::1] dev.prayerpulse.local
 if DEBUG:
     ALLOWED_HOSTS = ["*"]
 else:
