@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prayer Pulse API</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon-16x16.png">
+    <link rel="shortcut icon" href="/static/favicon.ico">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        .container {
+            max-width: 800px;
+            text-align: center;
+        }
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #00d084 0%, #00f5a0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .subtitle {
+            font-size: 1.5rem;
+            color: #a0a0a0;
+            margin-bottom: 3rem;
+        }
+        .api-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        .api-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 208, 132, 0.2);
+            border-radius: 12px;
+            padding: 2rem;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+        .api-card:hover {
+            transform: translateY(-5px);
+            border-color: #00d084;
+            box-shadow: 0 10px 30px rgba(0, 208, 132, 0.3);
+        }
+        .api-card h2 {
+            font-size: 1.5rem;
+            color: #00d084;
+            margin-bottom: 0.5rem;
+        }
+        .api-card p {
+            color: #a0a0a0;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: #00d084;
+            color: #000000;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-top: 1rem;
+        }
+        .coming-soon {
+            background: #666666;
+        }
+        .footer {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #6e7681;
+            font-size: 0.9rem;
+        }
+        .footer a {
+            color: #00d084;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .footer a:hover {
+            color: #00f5a0;
+        }
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+            .subtitle {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Prayer Pulse API</h1>
+        <p class="subtitle">Powerful APIs for Prayer and Scripture</p>
+
+        <div class="api-cards">
+            <a href="/docs/bible/" class="api-card">
+                <h2>📖 Bible API</h2>
+                <p>Access multiple Bible translations, commentaries, and advanced search capabilities.</p>
+                <span class="status-badge">Available</span>
+            </a>
+
+            <div class="api-card" style="cursor: not-allowed; opacity: 0.6;">
+                <h2>👥 Users API</h2>
+                <p>User authentication, profiles, and account management endpoints.</p>
+                <span class="status-badge coming-soon">Coming Soon</span>
+            </div>
+
+            <div class="api-card" style="cursor: not-allowed; opacity: 0.6;">
+                <h2>🙏 Prayer API</h2>
+                <p>Prayer request management, prayer tracking, and community features.</p>
+                <span class="status-badge coming-soon">Coming Soon</span>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Need help? Contact us at <a href="mailto:admin@prayerpulse.io">admin@prayerpulse.io</a></p>
+            <p style="margin-top: 0.5rem;">&copy; 2025 Prayer Pulse. All rights reserved.</p>
+        </div>
+    </div>
+</body>
+</html>

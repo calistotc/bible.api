@@ -49,7 +49,10 @@ def cross_origin(response, headers={}):
 
 
 def index(request):
-    return HttpResponse("Hello, world. You're at the bolls index.")
+    """
+    Landing page showing available APIs
+    """
+    return render(request, 'landing.html')
 
 
 def get_translation(_, translation):

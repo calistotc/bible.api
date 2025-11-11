@@ -32,9 +32,13 @@ user_urlpatterns = [
     ),
 ]
 
+# Bible API documentation (will be at /docs/bible/)
+bible_docs_urlpatterns = [
+    path("", views.api_documentation, name="api_docs"),
+]
+
 # Bible API endpoints (will be prefixed with /bible/)
 bible_urlpatterns = [
-    path("", views.api_documentation, name="api_docs"),  # /bible/ → documentation
     path("api/tag-tool-reference/<slug:translation>/<str:book>/<int:chapter>/<slug:verses>/", views.tag_tool_reference),
     path("get-translation/<slug:translation>/", views.get_translation),
     path("get-paralel-verses/", views.get_parallel_verses),  # typo, DEPRECATED
