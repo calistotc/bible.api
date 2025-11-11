@@ -557,6 +557,7 @@
             <div class="nav-section-title">Getting Started</div>
             <a href="#introduction" class="nav-link active">Introduction</a>
             <a href="#authentication" class="nav-link">Authentication</a>
+            <a href="#whats-new" class="nav-link">🎉 What's New</a>
             <a href="#quick-start" class="nav-link">Quick Start</a>
         </div>
 
@@ -627,16 +628,67 @@
             </div>
         </section>
 
+        <!-- What's New Section -->
+        <section id="whats-new" class="section">
+            <h2>🎉 What's New - User-Friendly Book Codes!</h2>
+            <div class="info-box">
+                <strong>Major Update:</strong> All Bible API endpoints now support intuitive book names instead of just numeric IDs!
+            </div>
+
+            <p>You can now use readable book names in your API calls:</p>
+
+            <div class="code-block">
+                <div class="code-label">✅ New User-Friendly Format</div>
+                <div class="code-wrapper">
+                    <button class="copy-button" onclick="copyCode(this)">Copy</button>
+                    <pre><code>https://api.prayerpulse.io/bible/get-verse/KJV/John/3/16/
+https://api.prayerpulse.io/bible/get-text/NIV/Genesis/1/
+https://api.prayerpulse.io/bible/get-chapter/ESV/Matthew/5/
+https://api.prayerpulse.io/bible/get-text/KJV/Psalms/23/</code></pre>
+                </div>
+            </div>
+
+            <div class="code-block">
+                <div class="code-label">✅ Still Works - Legacy Numeric Format</div>
+                <div class="code-wrapper">
+                    <button class="copy-button" onclick="copyCode(this)">Copy</button>
+                    <pre><code>https://api.prayerpulse.io/bible/get-verse/KJV/43/3/16/
+https://api.prayerpulse.io/bible/get-text/NIV/1/1/</code></pre>
+                </div>
+            </div>
+
+            <p><strong>Supported book name formats:</strong></p>
+            <ul>
+                <li>📖 Full names: <span class="inline-code">Genesis</span>, <span class="inline-code">Matthew</span>, <span class="inline-code">Revelation</span></li>
+                <li>📖 Short codes: <span class="inline-code">Gen</span>, <span class="inline-code">Matt</span>, <span class="inline-code">Rev</span></li>
+                <li>📖 3-letter codes: <span class="inline-code">GEN</span>, <span class="inline-code">MAT</span>, <span class="inline-code">REV</span></li>
+                <li>📖 With spaces: <span class="inline-code">1 Samuel</span>, <span class="inline-code">1 Corinthians</span>, <span class="inline-code">Song of Solomon</span></li>
+                <li>📖 Numeric IDs: <span class="inline-code">1</span>, <span class="inline-code">40</span>, <span class="inline-code">66</span> (backward compatible)</li>
+            </ul>
+
+            <div class="info-box">
+                <strong>💡 Note:</strong> All Bible API endpoints are now under the <span class="inline-code">/bible/</span> prefix. This allows for future expansion with other API categories like <span class="inline-code">/users/</span> or <span class="inline-code">/prayers/</span>.
+            </div>
+        </section>
+
         <!-- Quick Start -->
         <section id="quick-start" class="section">
             <h2>Quick Start</h2>
-            <p>Get started with a simple request to fetch John 3:16:</p>
+            <p>Get started with a simple request to fetch John 3:16 using the new user-friendly format:</p>
 
             <div class="code-block">
-                <div class="code-label">Request</div>
+                <div class="code-label">Request (User-Friendly)</div>
                 <div class="code-wrapper">
                     <button class="copy-button" onclick="copyCode(this)">Copy</button>
-                    <pre><code>curl https://api.prayerpulse.io/get-verse/YLT/43/3/16/</code></pre>
+                    <pre><code>curl https://api.prayerpulse.io/bible/get-verse/KJV/John/3/16/</code></pre>
+                </div>
+            </div>
+
+            <div class="code-block">
+                <div class="code-label">Request (Legacy Numeric - Still Works)</div>
+                <div class="code-wrapper">
+                    <button class="copy-button" onclick="copyCode(this)">Copy</button>
+                    <pre><code>curl https://api.prayerpulse.io/bible/get-verse/KJV/43/3/16/</code></pre>
                 </div>
             </div>
 
@@ -647,7 +699,7 @@
                     <pre><code>{
   <span class="code-property">"pk"</span>: <span class="code-number">26133</span>,
   <span class="code-property">"verse"</span>: <span class="code-number">16</span>,
-  <span class="code-property">"text"</span>: <span class="code-string">"for God did so love the world, that His Son -- the only begotten -- He gave..."</span>
+  <span class="code-property">"text"</span>: <span class="code-string">"For God so loved the world, that he gave his only begotten Son..."</span>
 }</code></pre>
                 </div>
             </div>
@@ -666,7 +718,7 @@
             <div class="endpoint">
                 <div class="endpoint-header">
                     <span class="method method-get">GET</span>
-                    <div class="endpoint-url">/get-translations/</div>
+                    <div class="endpoint-url">/bible/get-translations/</div>
                 </div>
                 <div class="endpoint-description">Get a complete list of all available Bible translations.</div>
 
@@ -674,7 +726,7 @@
                     <div class="code-label">Example Request</div>
                     <div class="code-wrapper">
                         <button class="copy-button" onclick="copyCode(this)">Copy</button>
-                        <pre><code>curl https://api.prayerpulse.io/get-translations/</code></pre>
+                        <pre><code>curl https://api.prayerpulse.io/bible/get-translations/</code></pre>
                     </div>
                 </div>
 
@@ -732,7 +784,7 @@
             <div class="endpoint">
                 <div class="endpoint-header">
                     <span class="method method-get">GET</span>
-                    <div class="endpoint-url">/get-verse/{translation}/{book}/{chapter}/{verse}/</div>
+                    <div class="endpoint-url">/bible/get-verse/{translation}/{book}/{chapter}/{verse}/</div>
                 </div>
                 <div class="endpoint-description">Retrieve a single Bible verse by translation, book, chapter, and verse number.</div>
 
@@ -764,7 +816,7 @@
                     <div class="code-label">Example Request</div>
                     <div class="code-wrapper">
                         <button class="copy-button" onclick="copyCode(this)">Copy</button>
-                        <pre><code>curl https://api.prayerpulse.io/get-verse/YLT/1/1/1/</code></pre>
+                        <pre><code>curl https://api.prayerpulse.io/bible/get-verse/YLT/1/1/1/</code></pre>
                     </div>
                 </div>
 
@@ -785,7 +837,7 @@
             <div class="endpoint">
                 <div class="endpoint-header">
                     <span class="method method-get">GET</span>
-                    <div class="endpoint-url">/get-text/{translation}/{book}/{chapter}/</div>
+                    <div class="endpoint-url">/bible/get-text/{translation}/{book}/{chapter}/</div>
                 </div>
                 <div class="endpoint-description">Retrieve all verses from a specific chapter.</div>
 
@@ -793,7 +845,7 @@
                     <div class="code-label">Example Request</div>
                     <div class="code-wrapper">
                         <button class="copy-button" onclick="copyCode(this)">Copy</button>
-                        <pre><code>curl https://api.prayerpulse.io/get-text/YLT/43/3/</code></pre>
+                        <pre><code>curl https://api.prayerpulse.io/bible/get-text/YLT/43/3/</code></pre>
                     </div>
                 </div>
 
@@ -817,7 +869,7 @@
             <div class="endpoint">
                 <div class="endpoint-header">
                     <span class="method method-get">GET</span>
-                    <div class="endpoint-url">/get-chapter/{translation}/{book}/{chapter}/</div>
+                    <div class="endpoint-url">/bible/get-chapter/{translation}/{book}/{chapter}/</div>
                 </div>
                 <div class="endpoint-description">Retrieve all verses from a specific chapter WITH commentaries and study notes.</div>
 
@@ -829,7 +881,7 @@
                     <div class="code-label">Example Request</div>
                     <div class="code-wrapper">
                         <button class="copy-button" onclick="copyCode(this)">Copy</button>
-                        <pre><code>curl https://api.prayerpulse.io/get-chapter/NKJV/43/3/</code></pre>
+                        <pre><code>curl https://api.prayerpulse.io/bible/get-chapter/NKJV/43/3/</code></pre>
                     </div>
                 </div>
 
@@ -853,7 +905,7 @@
             <div class="endpoint">
                 <div class="endpoint-header">
                     <span class="method method-get">GET</span>
-                    <div class="endpoint-url">/get-random-verse/{translation}/</div>
+                    <div class="endpoint-url">/bible/get-random-verse/{translation}/</div>
                 </div>
                 <div class="endpoint-description">Get a random Bible verse from the specified translation. Perfect for daily devotionals or inspiration!</div>
 
@@ -861,7 +913,7 @@
                     <div class="code-label">Example Request</div>
                     <div class="code-wrapper">
                         <button class="copy-button" onclick="copyCode(this)">Copy</button>
-                        <pre><code>curl https://api.prayerpulse.io/get-random-verse/YLT/</code></pre>
+                        <pre><code>curl https://api.prayerpulse.io/bible/get-random-verse/YLT/</code></pre>
                     </div>
                 </div>
 
@@ -895,7 +947,7 @@
             <div class="endpoint">
                 <div class="endpoint-header">
                     <span class="method method-get">GET</span>
-                    <div class="endpoint-url">/v2/find/{translation}?search={query}</div>
+                    <div class="endpoint-url">/bible/v2/find/{translation}?search={query}</div>
                 </div>
                 <div class="endpoint-description">Search for verses containing the specified text with optional filters.</div>
 
@@ -946,7 +998,7 @@
                     <div class="code-label">Simple Search</div>
                     <div class="code-wrapper">
                         <button class="copy-button" onclick="copyCode(this)">Copy</button>
-                        <pre><code>curl "https://api.prayerpulse.io/v2/find/YLT?search=love"</code></pre>
+                        <pre><code>curl "https://api.prayerpulse.io/bible/v2/find/YLT?search=love"</code></pre>
                     </div>
                 </div>
 
@@ -954,7 +1006,7 @@
                     <div class="code-label">Advanced Search (Exact Match, Old Testament Only)</div>
                     <div class="code-wrapper">
                         <button class="copy-button" onclick="copyCode(this)">Copy</button>
-                        <pre><code>curl "https://api.prayerpulse.io/v2/find/YLT?search=Haggi&match_case=false&match_whole=true&book=ot&page=1&limit=50"</code></pre>
+                        <pre><code>curl "https://api.prayerpulse.io/bible/v2/find/YLT?search=Haggi&match_case=false&match_whole=true&book=ot&page=1&limit=50"</code></pre>
                     </div>
                 </div>
 
@@ -989,7 +1041,7 @@
             <div class="endpoint">
                 <div class="endpoint-header">
                     <span class="method method-get">GET</span>
-                    <div class="endpoint-url">/get-books/{translation}/</div>
+                    <div class="endpoint-url">/bible/get-books/{translation}/</div>
                 </div>
                 <div class="endpoint-description">Get a list of all books in the specified translation.</div>
 
@@ -1031,7 +1083,7 @@
             <div class="endpoint">
                 <div class="endpoint-header">
                     <span class="method method-get">GET</span>
-                    <div class="endpoint-url">/get-bookmarks/{translation}/{book}/{chapter}/</div>
+                    <div class="endpoint-url">/bible/get-bookmarks/{translation}/{book}/{chapter}/</div>
                 </div>
                 <div class="endpoint-description">Retrieve user bookmarks for a specific chapter.</div>
             </div>
@@ -1049,7 +1101,7 @@
             <div class="endpoint">
                 <div class="endpoint-header">
                     <span class="method method-post">POST</span>
-                    <div class="endpoint-url">/get-parallel-verses/</div>
+                    <div class="endpoint-url">/bible/get-parallel-verses/</div>
                 </div>
                 <div class="endpoint-description">Compare specific verses across multiple translations.</div>
 
@@ -1081,7 +1133,7 @@
                     <div class="code-label">Example Request (JavaScript)</div>
                     <div class="code-wrapper">
                         <button class="copy-button" onclick="copyCode(this)">Copy</button>
-                        <pre><code><span class="code-keyword">fetch</span>(<span class="code-string">"https://api.prayerpulse.io/get-parallel-verses/"</span>, {
+                        <pre><code><span class="code-keyword">fetch</span>(<span class="code-string">"https://api.prayerpulse.io/bible/get-parallel-verses/"</span>, {
   <span class="code-property">method</span>: <span class="code-string">"POST"</span>,
   <span class="code-property">headers</span>: { <span class="code-string">"Content-Type"</span>: <span class="code-string">"application/json"</span> },
   <span class="code-property">body</span>: <span class="code-keyword">JSON</span>.stringify({
@@ -1098,7 +1150,7 @@
                     <div class="code-label">cURL Example</div>
                     <div class="code-wrapper">
                         <button class="copy-button" onclick="copyCode(this)">Copy</button>
-                        <pre><code>curl -X POST https://api.prayerpulse.io/get-parallel-verses/ \
+                        <pre><code>curl -X POST https://api.prayerpulse.io/bible/get-parallel-verses/ \
   -H "Content-Type: application/json" \
   -d '{"translations":["YLT","KJV"],"verses":[16],"book":43,"chapter":3}'</code></pre>
                     </div>
@@ -1145,7 +1197,7 @@
             <div class="endpoint">
                 <div class="endpoint-header">
                     <span class="method method-post">POST</span>
-                    <div class="endpoint-url">/get-verses/</div>
+                    <div class="endpoint-url">/bible/get-verses/</div>
                 </div>
                 <div class="endpoint-description">Fetch multiple verses from different locations in the Bible.</div>
 
@@ -1212,7 +1264,7 @@
             <div class="endpoint">
                 <div class="endpoint-header">
                     <span class="method method-get">GET</span>
-                    <div class="endpoint-url">/dictionary-definition/{dict}/{query}/</div>
+                    <div class="endpoint-url">/bible/dictionary-definition/{dict}/{query}/</div>
                 </div>
                 <div class="endpoint-description">Get dictionary definitions for Hebrew or Greek words.</div>
 
@@ -1243,7 +1295,7 @@
                     <div class="code-label">Search by Hebrew Word</div>
                     <div class="code-wrapper">
                         <button class="copy-button" onclick="copyCode(this)">Copy</button>
-                        <pre><code>curl https://api.prayerpulse.io/dictionary-definition/BDBT/אֹ֑ור/</code></pre>
+                        <pre><code>curl https://api.prayerpulse.io/bible/dictionary-definition/BDBT/אֹ֑ור/</code></pre>
                     </div>
                 </div>
 
@@ -1251,7 +1303,7 @@
                     <div class="code-label">Search by Strong's Number</div>
                     <div class="code-wrapper">
                         <button class="copy-button" onclick="copyCode(this)">Copy</button>
-                        <pre><code>curl https://api.prayerpulse.io/dictionary-definition/BDBT/H216/</code></pre>
+                        <pre><code>curl https://api.prayerpulse.io/bible/dictionary-definition/BDBT/H216/</code></pre>
                     </div>
                 </div>
 
