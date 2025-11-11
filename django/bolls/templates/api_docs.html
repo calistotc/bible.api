@@ -11,593 +11,947 @@
             box-sizing: border-box;
         }
 
+        :root {
+            --bg-primary: #0d1117;
+            --bg-secondary: #161b22;
+            --bg-tertiary: #21262d;
+            --text-primary: #e6edf3;
+            --text-secondary: #8b949e;
+            --text-muted: #6e7681;
+            --accent-primary: #58a6ff;
+            --accent-secondary: #1f6feb;
+            --border-color: #30363d;
+            --success: #3fb950;
+            --warning: #d29922;
+            --code-bg: #161b22;
+            --sidebar-width: 280px;
+        }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
             line-height: 1.6;
-            color: #333;
-            background: #f5f5f5;
+            overflow-x: hidden;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: var(--sidebar-width);
+            height: 100vh;
+            background: var(--bg-secondary);
+            border-right: 1px solid var(--border-color);
+            overflow-y: auto;
+            z-index: 100;
+            padding: 2rem 0;
+        }
+
+        .sidebar::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .sidebar::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+        }
+
+        .sidebar::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 3px;
+        }
+
+        .logo {
+            padding: 0 1.5rem 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .logo h1 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .logo .version {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .nav-section-title {
+            padding: 0 1.5rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-link {
+            display: block;
+            padding: 0.5rem 1.5rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: all 0.2s;
+            border-left: 2px solid transparent;
+        }
+
+        .nav-link:hover {
+            color: var(--text-primary);
+            background: var(--bg-tertiary);
+            border-left-color: var(--accent-primary);
+        }
+
+        .nav-link.active {
+            color: var(--accent-primary);
+            background: var(--bg-tertiary);
+            border-left-color: var(--accent-primary);
+            font-weight: 500;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            padding: 3rem;
+            max-width: 1200px;
         }
 
         .header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 2rem 0;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--border-color);
         }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-
-        h1 {
+        .header h1 {
             font-size: 2.5rem;
+            font-weight: 700;
             margin-bottom: 0.5rem;
+            color: var(--text-primary);
         }
 
-        .subtitle {
-            font-size: 1.2rem;
-            opacity: 0.9;
+        .header p {
+            font-size: 1.125rem;
+            color: var(--text-secondary);
         }
 
-        .content {
-            background: white;
-            margin: 2rem auto;
-            padding: 2rem;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            max-width: 1200px;
+        .base-url {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            padding: 0.75rem 1rem;
+            border-radius: 6px;
+            margin-top: 1rem;
+            font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;
+            font-size: 0.875rem;
+            color: var(--accent-primary);
         }
 
-        h2 {
-            color: #667eea;
-            margin-top: 2rem;
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .badge-success {
+            background: rgba(63, 185, 80, 0.15);
+            color: var(--success);
+        }
+
+        /* Sections */
+        .section {
+            margin-bottom: 4rem;
+            scroll-margin-top: 2rem;
+        }
+
+        .section h2 {
+            font-size: 1.875rem;
+            font-weight: 700;
             margin-bottom: 1rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 2px solid #667eea;
+            color: var(--text-primary);
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--border-color);
         }
 
-        h3 {
-            color: #764ba2;
-            margin-top: 1.5rem;
-            margin-bottom: 0.5rem;
+        .section h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 2rem 0 1rem;
+            color: var(--text-primary);
         }
 
+        .section p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.7;
+        }
+
+        /* Endpoint Cards */
         .endpoint {
-            background: #f8f9fa;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
             padding: 1.5rem;
-            margin: 1rem 0;
-            border-radius: 6px;
-            border-left: 4px solid #667eea;
-        }
-
-        .method {
-            display: inline-block;
-            padding: 0.25rem 0.75rem;
-            border-radius: 4px;
-            font-weight: bold;
-            font-size: 0.875rem;
-            margin-right: 0.5rem;
-        }
-
-        .method.get {
-            background: #28a745;
-            color: white;
-        }
-
-        .method.post {
-            background: #007bff;
-            color: white;
-        }
-
-        .url {
-            font-family: 'Courier New', monospace;
-            background: #e9ecef;
-            padding: 0.5rem;
-            border-radius: 4px;
-            display: inline-block;
-            margin: 0.5rem 0;
-        }
-
-        .description {
-            margin: 1rem 0;
-            color: #555;
-        }
-
-        .parameters {
-            margin: 1rem 0;
-        }
-
-        .param {
-            padding: 0.5rem;
-            margin: 0.25rem 0;
-            background: white;
-            border-radius: 4px;
-        }
-
-        .param-name {
-            font-weight: bold;
-            color: #764ba2;
-            font-family: monospace;
-        }
-
-        .example {
-            background: #2d3748;
-            color: #68d391;
-            padding: 1rem;
-            border-radius: 6px;
-            margin: 1rem 0;
-            overflow-x: auto;
-        }
-
-        .example code {
-            font-family: 'Courier New', monospace;
-            font-size: 0.9rem;
-        }
-
-        .response {
-            background: #2d3748;
-            color: #90cdf4;
-            padding: 1rem;
-            border-radius: 6px;
-            margin: 1rem 0;
-            overflow-x: auto;
-        }
-
-        .response code {
-            font-family: 'Courier New', monospace;
-            font-size: 0.875rem;
-            white-space: pre;
-        }
-
-        .note {
-            background: #fff3cd;
-            border-left: 4px solid #ffc107;
-            padding: 1rem;
-            margin: 1rem 0;
-            border-radius: 4px;
-        }
-
-        .info {
-            background: #d1ecf1;
-            border-left: 4px solid #17a2b8;
-            padding: 1rem;
-            margin: 1rem 0;
-            border-radius: 4px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 1rem 0;
-        }
-
-        th, td {
-            padding: 0.75rem;
-            text-align: left;
-            border-bottom: 1px solid #dee2e6;
-        }
-
-        th {
-            background: #f8f9fa;
-            font-weight: bold;
-            color: #667eea;
-        }
-
-        .toc {
-            background: #f8f9fa;
-            padding: 1.5rem;
-            border-radius: 6px;
             margin-bottom: 2rem;
         }
 
-        .toc ul {
-            list-style: none;
-            padding-left: 1rem;
+        .endpoint-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
         }
 
-        .toc a {
-            color: #667eea;
-            text-decoration: none;
-            padding: 0.25rem 0;
-            display: block;
+        .method {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.375rem 0.75rem;
+            border-radius: 4px;
+            font-weight: 700;
+            font-size: 0.75rem;
+            font-family: 'SF Mono', Monaco, monospace;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
-        .toc a:hover {
-            color: #764ba2;
+        .method-get {
+            background: rgba(63, 185, 80, 0.15);
+            color: var(--success);
+            border: 1px solid rgba(63, 185, 80, 0.3);
+        }
+
+        .method-post {
+            background: rgba(88, 166, 255, 0.15);
+            color: var(--accent-primary);
+            border: 1px solid rgba(88, 166, 255, 0.3);
+        }
+
+        .endpoint-url {
+            flex: 1;
+            font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;
+            font-size: 0.9rem;
+            color: var(--text-primary);
+            background: var(--code-bg);
+            padding: 0.5rem 0.75rem;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+        }
+
+        .endpoint-description {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        /* Parameters */
+        .params {
+            margin: 1.5rem 0;
+        }
+
+        .params-title {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.75rem;
+        }
+
+        .param {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            padding: 0.75rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .param-name {
+            font-family: 'SF Mono', Monaco, monospace;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--accent-primary);
+        }
+
+        .param-type {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-left: 0.5rem;
+        }
+
+        .param-desc {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin-top: 0.25rem;
+        }
+
+        /* Code Blocks */
+        .code-block {
+            position: relative;
+            margin: 1.5rem 0;
+        }
+
+        .code-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.5rem;
+        }
+
+        pre {
+            background: var(--code-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 1rem;
+            overflow-x: auto;
+            font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Courier New', monospace;
+            font-size: 0.875rem;
+            line-height: 1.5;
+        }
+
+        pre::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        pre::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+            border-radius: 4px;
+        }
+
+        pre::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 4px;
+        }
+
+        code {
+            color: var(--text-primary);
+        }
+
+        .code-comment {
+            color: #6e7681;
+        }
+
+        .code-string {
+            color: #a5d6ff;
+        }
+
+        .code-number {
+            color: #79c0ff;
+        }
+
+        .code-keyword {
+            color: #ff7b72;
+        }
+
+        .code-property {
+            color: #d2a8ff;
+        }
+
+        /* Inline code */
+        .inline-code {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            padding: 0.125rem 0.375rem;
+            border-radius: 3px;
+            font-family: 'SF Mono', Monaco, monospace;
+            font-size: 0.875em;
+            color: var(--accent-primary);
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background: var(--bg-tertiary);
+            font-weight: 600;
+            font-size: 0.875rem;
+            color: var(--text-primary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover {
+            background: var(--bg-tertiary);
+        }
+
+        /* Info boxes */
+        .info-box {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-left: 3px solid var(--accent-primary);
+            border-radius: 6px;
+            padding: 1rem 1.25rem;
+            margin: 1.5rem 0;
+        }
+
+        .info-box strong {
+            color: var(--text-primary);
+        }
+
+        .warning-box {
+            border-left-color: var(--warning);
+            background: rgba(210, 153, 34, 0.05);
+        }
+
+        .success-box {
+            border-left-color: var(--success);
+            background: rgba(63, 185, 80, 0.05);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s;
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 2rem 1.5rem;
+            }
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Selection */
+        ::selection {
+            background: var(--accent-secondary);
+            color: var(--text-primary);
         }
     </style>
 </head>
 <body>
-    <div class="header">
-        <div class="container">
-            <h1>📖 PrayerPulse Bible API</h1>
-            <p class="subtitle">RESTful API for accessing Bible translations, verses, and search functionality</p>
-        </div>
-    </div>
-
-    <div class="content container">
-        <div class="info">
-            <strong>Base URL:</strong> <code>https://api.prayerpulse.io</code><br>
-            <strong>Version:</strong> 1.0<br>
-            <strong>Response Format:</strong> JSON
+    <!-- Sidebar Navigation -->
+    <nav class="sidebar">
+        <div class="logo">
+            <h1>📖 PrayerPulse</h1>
+            <div class="version">Bible API v1.0</div>
         </div>
 
-        <div class="toc">
-            <h3>📑 Table of Contents</h3>
-            <ul>
-                <li><a href="#getting-started">Getting Started</a></li>
-                <li><a href="#authentication">Authentication</a></li>
-                <li><a href="#verses">Verse Endpoints</a></li>
-                <li><a href="#search">Search Endpoints</a></li>
-                <li><a href="#books">Books & Metadata</a></li>
-                <li><a href="#user">User Features</a></li>
-                <li><a href="#translations">Available Translations</a></li>
-                <li><a href="#errors">Error Handling</a></li>
-            </ul>
+        <div class="nav-section">
+            <div class="nav-section-title">Getting Started</div>
+            <a href="#introduction" class="nav-link active">Introduction</a>
+            <a href="#authentication" class="nav-link">Authentication</a>
+            <a href="#quick-start" class="nav-link">Quick Start</a>
         </div>
 
-        <h2 id="getting-started">🚀 Getting Started</h2>
-        <p>The PrayerPulse Bible API provides programmatic access to multiple Bible translations, search functionality, and user features. All endpoints return JSON responses.</p>
-
-        <div class="example">
-            <code># Example: Get John 3:16 from Young's Literal Translation
-curl https://api.prayerpulse.io/get-verse/YLT/43/3/16/</code>
+        <div class="nav-section">
+            <div class="nav-section-title">Endpoints</div>
+            <a href="#verses" class="nav-link">Verses</a>
+            <a href="#search" class="nav-link">Search</a>
+            <a href="#books" class="nav-link">Books & Metadata</a>
+            <a href="#user-features" class="nav-link">User Features</a>
         </div>
 
-        <h3>Quick Example Response</h3>
-        <div class="response">
-            <code>{
-  "pk": 26133,
-  "verse": 16,
-  "text": "for God did so love the world, that His Son -- the only begotten -- He gave, that every one who is believing in him may not perish, but may have life age-during."
-}</code>
+        <div class="nav-section">
+            <div class="nav-section-title">Reference</div>
+            <a href="#translations" class="nav-link">Translations</a>
+            <a href="#book-numbers" class="nav-link">Book Numbers</a>
+            <a href="#error-codes" class="nav-link">Error Codes</a>
         </div>
 
-        <h2 id="authentication">🔐 Authentication</h2>
-        <p>Most read endpoints do not require authentication. User-specific features (bookmarks, history, notes) require authentication via Django session or OAuth.</p>
-
-        <div class="note">
-            <strong>Note:</strong> Public endpoints have CORS enabled for cross-origin requests.
+        <div class="nav-section">
+            <div class="nav-section-title">Resources</div>
+            <a href="#best-practices" class="nav-link">Best Practices</a>
+            <a href="#support" class="nav-link">Support</a>
         </div>
+    </nav>
 
-        <h2 id="verses">📜 Verse Endpoints</h2>
-
-        <div class="endpoint">
-            <div>
-                <span class="method get">GET</span>
-                <span class="url">/get-verse/{translation}/{book}/{chapter}/{verse}/</span>
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="header">
+            <h1>Bible API Documentation</h1>
+            <p>RESTful API for accessing Bible translations, verses, and search functionality</p>
+            <div class="base-url">
+                <span style="color: var(--text-muted);">Base URL:</span>
+                <span>https://api.prayerpulse.io</span>
             </div>
-            <div class="description">Get a single Bible verse</div>
-            <div class="parameters">
-                <strong>Parameters:</strong>
-                <div class="param">
-                    <span class="param-name">translation</span> - Translation code (e.g., YLT, KJV, ASV)
+            <span class="badge badge-success" style="margin-left: 1rem;">Production Ready</span>
+        </div>
+
+        <!-- Introduction -->
+        <section id="introduction" class="section">
+            <h2>Introduction</h2>
+            <p>The PrayerPulse Bible API provides programmatic access to multiple Bible translations, search functionality, and user features. All endpoints return JSON responses with CORS enabled for cross-origin requests.</p>
+
+            <div class="info-box">
+                <strong>Response Format:</strong> All responses are in JSON format with UTF-8 encoding.
+            </div>
+        </section>
+
+        <!-- Authentication -->
+        <section id="authentication" class="section">
+            <h2>Authentication</h2>
+            <p>Most read endpoints do not require authentication. User-specific features (bookmarks, history, notes) require authentication via Django session or OAuth.</p>
+
+            <div class="warning-box info-box">
+                <strong>Public Endpoints:</strong> No authentication required for verse retrieval, search, and book metadata endpoints.
+            </div>
+        </section>
+
+        <!-- Quick Start -->
+        <section id="quick-start" class="section">
+            <h2>Quick Start</h2>
+            <p>Get started with a simple request to fetch John 3:16:</p>
+
+            <div class="code-block">
+                <div class="code-label">Request</div>
+                <pre><code>curl https://api.prayerpulse.io/get-verse/YLT/43/3/16/</code></pre>
+            </div>
+
+            <div class="code-block">
+                <div class="code-label">Response</div>
+                <pre><code>{
+  <span class="code-property">"pk"</span>: <span class="code-number">26133</span>,
+  <span class="code-property">"verse"</span>: <span class="code-number">16</span>,
+  <span class="code-property">"text"</span>: <span class="code-string">"for God did so love the world, that His Son -- the only begotten -- He gave..."</span>
+}</code></pre>
+            </div>
+        </section>
+
+        <!-- Verses Endpoints -->
+        <section id="verses" class="section">
+            <h2>Verses</h2>
+            <p>Retrieve Bible verses, chapters, and random verses.</p>
+
+            <!-- Get Single Verse -->
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <span class="method method-get">GET</span>
+                    <div class="endpoint-url">/get-verse/{translation}/{book}/{chapter}/{verse}/</div>
                 </div>
-                <div class="param">
-                    <span class="param-name">book</span> - Book number (1-66) or book name
-                </div>
-                <div class="param">
-                    <span class="param-name">chapter</span> - Chapter number
-                </div>
-                <div class="param">
-                    <span class="param-name">verse</span> - Verse number
-                </div>
-            </div>
-            <div class="example">
-                <code>curl https://api.prayerpulse.io/get-verse/YLT/1/1/1/</code>
-            </div>
-            <div class="response">
-                <code>{
-  "pk": 1,
-  "verse": 1,
-  "text": "In the beginning of God's preparing the heavens and the earth --"
-}</code>
-            </div>
-        </div>
+                <div class="endpoint-description">Retrieve a single Bible verse by translation, book, chapter, and verse number.</div>
 
-        <div class="endpoint">
-            <div>
-                <span class="method get">GET</span>
-                <span class="url">/get-text/{translation}/{book}/{chapter}/</span>
-            </div>
-            <div class="description">Get all verses from a chapter</div>
-            <div class="parameters">
-                <strong>Parameters:</strong>
-                <div class="param">
-                    <span class="param-name">translation</span> - Translation code
+                <div class="params">
+                    <div class="params-title">Path Parameters</div>
+                    <div class="param">
+                        <span class="param-name">translation</span>
+                        <span class="param-type">string</span>
+                        <div class="param-desc">Translation code (e.g., YLT, KJV, ASV)</div>
+                    </div>
+                    <div class="param">
+                        <span class="param-name">book</span>
+                        <span class="param-type">integer</span>
+                        <div class="param-desc">Book number (1-66)</div>
+                    </div>
+                    <div class="param">
+                        <span class="param-name">chapter</span>
+                        <span class="param-type">integer</span>
+                        <div class="param-desc">Chapter number</div>
+                    </div>
+                    <div class="param">
+                        <span class="param-name">verse</span>
+                        <span class="param-type">integer</span>
+                        <div class="param-desc">Verse number</div>
+                    </div>
                 </div>
-                <div class="param">
-                    <span class="param-name">book</span> - Book number (1-66)
+
+                <div class="code-block">
+                    <div class="code-label">Example Request</div>
+                    <pre><code>curl https://api.prayerpulse.io/get-verse/YLT/1/1/1/</code></pre>
                 </div>
-                <div class="param">
-                    <span class="param-name">chapter</span> - Chapter number
-                </div>
-            </div>
-            <div class="example">
-                <code>curl https://api.prayerpulse.io/get-text/YLT/43/3/</code>
-            </div>
-            <div class="response">
-                <code>[
-  {"pk": 26118, "verse": 1, "text": "And there was a man..."},
-  {"pk": 26119, "verse": 2, "text": "this one came unto him..."},
-  ...
-]</code>
-            </div>
-        </div>
 
-        <div class="endpoint">
-            <div>
-                <span class="method get">GET</span>
-                <span class="url">/get-chapter/{translation}/{book}/{chapter}/</span>
-            </div>
-            <div class="description">Get chapter verses with commentaries (if available)</div>
-            <div class="example">
-                <code>curl https://api.prayerpulse.io/get-chapter/YLT/1/1/</code>
-            </div>
-        </div>
-
-        <div class="endpoint">
-            <div>
-                <span class="method get">GET</span>
-                <span class="url">/get-random-verse/{translation}/</span>
-            </div>
-            <div class="description">Get a random Bible verse</div>
-            <div class="example">
-                <code>curl https://api.prayerpulse.io/get-random-verse/YLT/</code>
-            </div>
-        </div>
-
-        <h2 id="search">🔍 Search Endpoints</h2>
-
-        <div class="endpoint">
-            <div>
-                <span class="method get">GET</span>
-                <span class="url">/search/{translation}/{query}/</span>
-            </div>
-            <div class="description">Search for verses containing specific text</div>
-            <div class="parameters">
-                <strong>Parameters:</strong>
-                <div class="param">
-                    <span class="param-name">translation</span> - Translation code
-                </div>
-                <div class="param">
-                    <span class="param-name">query</span> - Search term or phrase
+                <div class="code-block">
+                    <div class="code-label">Example Response</div>
+                    <pre><code>{
+  <span class="code-property">"pk"</span>: <span class="code-number">1</span>,
+  <span class="code-property">"verse"</span>: <span class="code-number">1</span>,
+  <span class="code-property">"text"</span>: <span class="code-string">"In the beginning of God's preparing the heavens and the earth --"</span>
+}</code></pre>
                 </div>
             </div>
-            <div class="example">
-                <code>curl https://api.prayerpulse.io/search/YLT/love/</code>
+
+            <!-- Get Chapter -->
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <span class="method method-get">GET</span>
+                    <div class="endpoint-url">/get-text/{translation}/{book}/{chapter}/</div>
+                </div>
+                <div class="endpoint-description">Retrieve all verses from a specific chapter.</div>
+
+                <div class="code-block">
+                    <div class="code-label">Example Request</div>
+                    <pre><code>curl https://api.prayerpulse.io/get-text/YLT/43/3/</code></pre>
+                </div>
+
+                <div class="code-block">
+                    <div class="code-label">Example Response</div>
+                    <pre><code>[
+  {
+    <span class="code-property">"pk"</span>: <span class="code-number">26118</span>,
+    <span class="code-property">"verse"</span>: <span class="code-number">1</span>,
+    <span class="code-property">"text"</span>: <span class="code-string">"And there was a man of the Pharisees..."</span>
+  },
+  <span class="code-comment">// ... more verses</span>
+]</code></pre>
+                </div>
             </div>
-            <div class="response">
-                <code>{
-  "verses": [
+
+            <!-- Random Verse -->
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <span class="method method-get">GET</span>
+                    <div class="endpoint-url">/get-random-verse/{translation}/</div>
+                </div>
+                <div class="endpoint-description">Get a random Bible verse from the specified translation.</div>
+
+                <div class="code-block">
+                    <div class="code-label">Example Request</div>
+                    <pre><code>curl https://api.prayerpulse.io/get-random-verse/YLT/</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Search Endpoints -->
+        <section id="search" class="section">
+            <h2>Search</h2>
+            <p>Search for verses containing specific keywords or phrases.</p>
+
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <span class="method method-get">GET</span>
+                    <div class="endpoint-url">/search/{translation}/{query}/</div>
+                </div>
+                <div class="endpoint-description">Search for verses containing the specified text.</div>
+
+                <div class="params">
+                    <div class="params-title">Path Parameters</div>
+                    <div class="param">
+                        <span class="param-name">translation</span>
+                        <span class="param-type">string</span>
+                        <div class="param-desc">Translation code</div>
+                    </div>
+                    <div class="param">
+                        <span class="param-name">query</span>
+                        <span class="param-type">string</span>
+                        <div class="param-desc">Search term or phrase</div>
+                    </div>
+                </div>
+
+                <div class="code-block">
+                    <div class="code-label">Example Request</div>
+                    <pre><code>curl https://api.prayerpulse.io/search/YLT/love/</code></pre>
+                </div>
+
+                <div class="code-block">
+                    <div class="code-label">Example Response</div>
+                    <pre><code>{
+  <span class="code-property">"verses"</span>: [
     {
-      "pk": 12345,
-      "book": 43,
-      "chapter": 3,
-      "verse": 16,
-      "text": "for God did so love the world..."
-    },
-    ...
+      <span class="code-property">"pk"</span>: <span class="code-number">26133</span>,
+      <span class="code-property">"book"</span>: <span class="code-number">43</span>,
+      <span class="code-property">"chapter"</span>: <span class="code-number">3</span>,
+      <span class="code-property">"verse"</span>: <span class="code-number">16</span>,
+      <span class="code-property">"text"</span>: <span class="code-string">"for God did so love the world..."</span>
+    }
   ]
-}</code>
+}</code></pre>
+                </div>
             </div>
-        </div>
+        </section>
 
-        <div class="endpoint">
-            <div>
-                <span class="method get">GET</span>
-                <span class="url">/find/{translation}/{query}/</span>
-            </div>
-            <div class="description">Alternative search endpoint (same as /search/)</div>
-        </div>
+        <!-- Books & Metadata -->
+        <section id="books" class="section">
+            <h2>Books & Metadata</h2>
+            <p>Retrieve book lists, verse counts, and translation metadata.</p>
 
-        <div class="endpoint">
-            <div>
-                <span class="method get">GET</span>
-                <span class="url">/v2/find/{translation}/?q={query}</span>
-            </div>
-            <div class="description">Version 2 search API with query parameters</div>
-            <div class="example">
-                <code>curl https://api.prayerpulse.io/v2/find/YLT/?q=faith</code>
-            </div>
-        </div>
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <span class="method method-get">GET</span>
+                    <div class="endpoint-url">/get-books/{translation}/</div>
+                </div>
+                <div class="endpoint-description">Get a list of all books in the specified translation.</div>
 
-        <h2 id="books">📚 Books & Metadata Endpoints</h2>
-
-        <div class="endpoint">
-            <div>
-                <span class="method get">GET</span>
-                <span class="url">/get-books/{translation}/</span>
-            </div>
-            <div class="description">Get list of all books in a translation</div>
-            <div class="example">
-                <code>curl https://api.prayerpulse.io/get-books/YLT/</code>
-            </div>
-            <div class="response">
-                <code>[
+                <div class="code-block">
+                    <div class="code-label">Example Response</div>
+                    <pre><code>[
   {
-    "bookid": 1,
-    "name": "Genesis",
-    "chapters": 50,
-    "chronorder": 1
+    <span class="code-property">"bookid"</span>: <span class="code-number">1</span>,
+    <span class="code-property">"name"</span>: <span class="code-string">"Genesis"</span>,
+    <span class="code-property">"chapters"</span>: <span class="code-number">50</span>,
+    <span class="code-property">"chronorder"</span>: <span class="code-number">1</span>
   },
-  {
-    "bookid": 2,
-    "name": "Exodus",
-    "chapters": 40,
-    "chronorder": 3
-  },
-  ...
-]</code>
+  <span class="code-comment">// ... 65 more books</span>
+]</code></pre>
+                </div>
             </div>
-        </div>
+        </section>
 
-        <div class="endpoint">
-            <div>
-                <span class="method get">GET</span>
-                <span class="url">/get-verse-counts/{translation}/</span>
+        <!-- User Features -->
+        <section id="user-features" class="section">
+            <h2>User Features</h2>
+            <p>Authenticated endpoints for user bookmarks, notes, and reading history.</p>
+
+            <div class="warning-box info-box">
+                <strong>Authentication Required:</strong> These endpoints require user authentication via Django session or OAuth.
             </div>
-            <div class="description">Get verse counts for all books</div>
-        </div>
 
-        <div class="endpoint">
-            <div>
-                <span class="method get">GET</span>
-                <span class="url">/get-translation/{translation}/</span>
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <span class="method method-post">POST</span>
+                    <div class="endpoint-url">/save-bookmarks/</div>
+                </div>
+                <div class="endpoint-description">Save user bookmarks for specific verses.</div>
             </div>
-            <div class="description">Download entire translation as JSON (large response)</div>
-            <div class="note">
-                <strong>Warning:</strong> This endpoint returns all verses (~31,000) and may take time to process. Use with caution.
+
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <span class="method method-get">GET</span>
+                    <div class="endpoint-url">/get-bookmarks/{translation}/{book}/{chapter}/</div>
+                </div>
+                <div class="endpoint-description">Retrieve user bookmarks for a specific chapter.</div>
             </div>
-        </div>
+        </section>
 
-        <h2 id="user">👤 User Features (Authentication Required)</h2>
+        <!-- Translations -->
+        <section id="translations" class="section">
+            <h2>Available Translations</h2>
+            <p>Currently available Bible translations in the API:</p>
 
-        <div class="endpoint">
-            <div>
-                <span class="method post">POST</span>
-                <span class="url">/save-bookmarks/</span>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Code</th>
+                        <th>Name</th>
+                        <th>Language</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="inline-code">YLT</span></td>
+                        <td>Young's Literal Translation</td>
+                        <td>English</td>
+                    </tr>
+                    <tr>
+                        <td><span class="inline-code">KJV</span></td>
+                        <td>King James Version</td>
+                        <td>English</td>
+                    </tr>
+                    <tr>
+                        <td><span class="inline-code">ASV</span></td>
+                        <td>American Standard Version</td>
+                        <td>English</td>
+                    </tr>
+                    <tr>
+                        <td><span class="inline-code">BSB</span></td>
+                        <td>Berean Study Bible</td>
+                        <td>English</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" style="text-align: center; color: var(--text-muted);">...and many more</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Book Numbers -->
+        <section id="book-numbers" class="section">
+            <h2>Book Reference Numbers</h2>
+            <p>Books are referenced by their canonical order (1-66):</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Book</th>
+                        <th>ID</th>
+                        <th>Book</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Genesis</td>
+                        <td>40</td>
+                        <td>Matthew</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Exodus</td>
+                        <td>41</td>
+                        <td>Mark</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>Leviticus</td>
+                        <td>42</td>
+                        <td>Luke</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>Numbers</td>
+                        <td>43</td>
+                        <td>John</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>Deuteronomy</td>
+                        <td>44</td>
+                        <td>Acts</td>
+                    </tr>
+                    <tr>
+                        <td colspan="4" style="text-align: center; color: var(--text-muted);">Use /get-books/ endpoint for complete list</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Error Codes -->
+        <section id="error-codes" class="section">
+            <h2>Error Codes</h2>
+            <p>Standard HTTP response codes are used:</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Code</th>
+                        <th>Status</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>200</td>
+                        <td>OK</td>
+                        <td>Request successful</td>
+                    </tr>
+                    <tr>
+                        <td>400</td>
+                        <td>Bad Request</td>
+                        <td>Invalid parameters or malformed request</td>
+                    </tr>
+                    <tr>
+                        <td>404</td>
+                        <td>Not Found</td>
+                        <td>Resource does not exist</td>
+                    </tr>
+                    <tr>
+                        <td>500</td>
+                        <td>Internal Server Error</td>
+                        <td>Server encountered an error</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Best Practices -->
+        <section id="best-practices" class="section">
+            <h2>Best Practices</h2>
+
+            <div class="success-box info-box">
+                <strong>Performance Tips:</strong>
+                <ul style="margin-top: 0.5rem; padding-left: 1.5rem;">
+                    <li style="margin-bottom: 0.5rem;">Use specific verse endpoints instead of downloading entire translations</li>
+                    <li style="margin-bottom: 0.5rem;">Cache responses on your client to reduce API calls</li>
+                    <li style="margin-bottom: 0.5rem;">Implement proper error handling for network failures</li>
+                    <li>Always use HTTPS for secure connections</li>
+                </ul>
             </div>
-            <div class="description">Save user bookmarks</div>
-        </div>
+        </section>
 
-        <div class="endpoint">
-            <div>
-                <span class="method post">POST</span>
-                <span class="url">/delete-bookmarks/</span>
+        <!-- Support -->
+        <section id="support" class="section">
+            <h2>Support</h2>
+            <p>Need help or have questions?</p>
+
+            <div class="info-box">
+                <strong>Contact:</strong><br>
+                Email: admin@prayerpulse.io<br>
+                Admin Panel: <a href="/admin/" style="color: var(--accent-primary);">https://api.prayerpulse.io/admin/</a>
             </div>
-            <div class="description">Delete user bookmarks</div>
+        </section>
+
+        <div style="margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--border-color); text-align: center; color: var(--text-muted); font-size: 0.875rem;">
+            PrayerPulse Bible API v1.0 • Self-Hosted • Last Updated: November 2025
         </div>
+    </main>
 
-        <div class="endpoint">
-            <div>
-                <span class="method get">GET</span>
-                <span class="url">/get-bookmarks/{translation}/{book}/{chapter}/</span>
-            </div>
-            <div class="description">Get bookmarks for a specific chapter</div>
-        </div>
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
 
-        <div class="endpoint">
-            <div>
-                <span class="method get">GET</span>
-                <span class="url">/get-profile-bookmarks/{range_from}/{range_to}/</span>
-            </div>
-            <div class="description">Get user's bookmarks with pagination</div>
-        </div>
+                // Remove active class from all links
+                document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
 
-        <div class="endpoint">
-            <div>
-                <span class="method post">POST</span>
-                <span class="url">/history/</span>
-            </div>
-            <div class="description">Save reading history</div>
-        </div>
+                // Add active class to clicked link
+                this.classList.add('active');
 
-        <div class="endpoint">
-            <div>
-                <span class="method get">GET</span>
-                <span class="url">/download-notes/</span>
-            </div>
-            <div class="description">Export user notes</div>
-        </div>
+                // Scroll to section
+                const targetId = this.getAttribute('href').substring(1);
+                const targetSection = document.getElementById(targetId);
+                if (targetSection) {
+                    targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
 
-        <div class="endpoint">
-            <div>
-                <span class="method post">POST</span>
-                <span class="url">/import-notes/</span>
-            </div>
-            <div class="description">Import user notes</div>
-        </div>
+        // Update active link on scroll
+        const sections = document.querySelectorAll('.section');
+        const navLinks = document.querySelectorAll('.nav-link');
 
-        <h2 id="translations">🌍 Available Translations</h2>
-        <p>The following Bible translations are currently available in the API:</p>
+        window.addEventListener('scroll', () => {
+            let current = '';
 
-        <table>
-            <thead>
-                <tr>
-                    <th>Code</th>
-                    <th>Name</th>
-                    <th>Language</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr><td>YLT</td><td>Young's Literal Translation</td><td>English</td></tr>
-                <tr><td>KJV</td><td>King James Version</td><td>English</td></tr>
-                <tr><td>ASV</td><td>American Standard Version</td><td>English</td></tr>
-                <tr><td>BSB</td><td>Berean Study Bible</td><td>English</td></tr>
-                <tr><td>AMP</td><td>Amplified Bible</td><td>English</td></tr>
-                <tr><td>CEB</td><td>Common English Bible</td><td>English</td></tr>
-                <tr><td colspan="3" style="text-align: center;"><em>...and many more</em></td></tr>
-            </tbody>
-        </table>
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (scrollY >= (sectionTop - 100)) {
+                    current = section.getAttribute('id');
+                }
+            });
 
-        <div class="info">
-            To see all available translations, visit: <code>/get-books/{translation}/</code> or check the static files directory.
-        </div>
-
-        <h2>📖 Book Reference Numbers</h2>
-        <p>Books are referenced by their canonical order (1-66):</p>
-
-        <table>
-            <thead>
-                <tr>
-                    <th>Book #</th>
-                    <th>Name</th>
-                    <th>Book #</th>
-                    <th>Name</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr><td>1</td><td>Genesis</td><td>40</td><td>Matthew</td></tr>
-                <tr><td>2</td><td>Exodus</td><td>41</td><td>Mark</td></tr>
-                <tr><td>3</td><td>Leviticus</td><td>42</td><td>Luke</td></tr>
-                <tr><td>4</td><td>Numbers</td><td>43</td><td>John</td></tr>
-                <tr><td>5</td><td>Deuteronomy</td><td>44</td><td>Acts</td></tr>
-                <tr><td colspan="4" style="text-align: center;"><em>...see full list via /get-books/ endpoint</em></td></tr>
-            </tbody>
-        </table>
-
-        <h2 id="errors">⚠️ Error Handling</h2>
-        <p>The API uses standard HTTP response codes:</p>
-
-        <table>
-            <thead>
-                <tr>
-                    <th>Code</th>
-                    <th>Description</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr><td>200</td><td>Success</td></tr>
-                <tr><td>400</td><td>Bad Request - Invalid parameters</td></tr>
-                <tr><td>404</td><td>Not Found - Resource doesn't exist</td></tr>
-                <tr><td>500</td><td>Internal Server Error</td></tr>
-            </tbody>
-        </table>
-
-        <h2>💡 Best Practices</h2>
-        <ul style="margin-left: 2rem; margin-top: 1rem;">
-            <li>Use specific verse endpoints when possible instead of downloading entire translations</li>
-            <li>Cache responses on your client to reduce API calls</li>
-            <li>Include proper error handling for network failures</li>
-            <li>Use HTTPS for all requests</li>
-            <li>Respect rate limits (if implemented)</li>
-        </ul>
-
-        <h2>📞 Support</h2>
-        <p>For questions, issues, or feature requests:</p>
-        <ul style="margin-left: 2rem; margin-top: 1rem;">
-            <li><strong>Email:</strong> admin@prayerpulse.io</li>
-            <li><strong>Admin Panel:</strong> <a href="/admin/">https://api.prayerpulse.io/admin/</a></li>
-        </ul>
-
-        <hr style="margin: 2rem 0; border: none; border-top: 1px solid #dee2e6;">
-
-        <p style="text-align: center; color: #6c757d; font-size: 0.875rem;">
-            PrayerPulse Bible API v1.0 | Self-Hosted | Last Updated: November 2025
-        </p>
-    </div>
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
 </body>
 </html>
