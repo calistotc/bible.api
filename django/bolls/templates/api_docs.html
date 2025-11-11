@@ -718,6 +718,87 @@ Response:
             </ul>
 
             <p><strong>💡 Use case:</strong> Enable this in your app settings to let users choose between clean reading text or scholarly study mode!</p>
+
+            <h3>📑 Understanding Section Titles</h3>
+            <div class="info-box">
+                <strong>What are Section Titles?</strong> Many Bible translations include section titles like "The Beginning", "The Fall of Man", "The Good Samaritan" to help readers understand the context.
+            </div>
+
+            <p>Some translations (like NIV, ESV, NLT) include section titles embedded in verse text. These are editorial additions that help organize the Bible into logical sections for study.</p>
+
+            <div class="code-block">
+                <div class="code-label">📚 Default Response - Includes Section Title</div>
+                <div class="code-wrapper">
+                    <button class="copy-button" onclick="copyCode(this)">Copy</button>
+                    <pre><code>GET https://api.prayerpulse.io/bible/get-verse/NIV/Genesis/1/1/
+
+Response:
+{
+  "pk": 2568649,
+  "verse": 1,
+  "text": "The Beginning&lt;br/&gt;In the beginning God created the heavens and the earth."
+}</code></pre>
+                </div>
+            </div>
+
+            <div class="code-block">
+                <div class="code-label">📖 Clean Response - Section Title Removed</div>
+                <div class="code-wrapper">
+                    <button class="copy-button" onclick="copyCode(this)">Copy</button>
+                    <pre><code>GET https://api.prayerpulse.io/bible/get-verse/NIV/Genesis/1/1/?clean=true
+
+Response:
+{
+  "pk": 2568649,
+  "verse": 1,
+  "text": "In the beginning God created the heavens and the earth."
+}</code></pre>
+                </div>
+            </div>
+
+            <p><strong>How to Display Section Titles in Your App:</strong></p>
+            <div class="code-block">
+                <div class="code-label">JavaScript Example - Extracting Section Titles</div>
+                <div class="code-wrapper">
+                    <button class="copy-button" onclick="copyCode(this)">Copy</button>
+                    <pre><code>// Fetch verse with section title
+fetch('https://api.prayerpulse.io/bible/get-verse/NIV/Genesis/1/1/')
+  .then(res => res.json())
+  .then(data => {
+    const fullText = data.text;
+
+    // Check if text contains section title
+    if (fullText.includes('&lt;br/&gt;')) {
+      const parts = fullText.split('&lt;br/&gt;');
+      const sectionTitle = parts[0].trim();
+      const verseText = parts[1].trim();
+
+      // Display section title separately
+      console.log('Section:', sectionTitle);  // "The Beginning"
+      console.log('Verse:', verseText);       // "In the beginning..."
+
+      // Render in your UI
+      // &lt;h3&gt;{sectionTitle}&lt;/h3&gt;
+      // &lt;p&gt;{verseText}&lt;/p&gt;
+    } else {
+      // No section title
+      console.log('Verse:', fullText);
+    }
+  });</code></pre>
+                </div>
+            </div>
+
+            <p><strong>Section Title Use Cases:</strong></p>
+            <ul>
+                <li>🔍 <strong>Bible Study:</strong> Users can search by section titles like "Sermon on the Mount"</li>
+                <li>📖 <strong>Navigation:</strong> Display section titles as chapter headings</li>
+                <li>📚 <strong>Context:</strong> Help readers understand the theme of each passage</li>
+                <li>🎨 <strong>Formatting:</strong> Style section titles differently (bold, larger font)</li>
+            </ul>
+
+            <div class="info-box">
+                <strong>💡 Best Practice:</strong> Store the full text (with section titles) in your database, then use <span class="inline-code">?clean=true</span> when you want to display just the verse text. This gives you maximum flexibility!
+            </div>
         </section>
 
         <!-- Quick Start -->
