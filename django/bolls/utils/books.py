@@ -231,22 +231,52 @@ def is_number(n):
         return False
 
 
-def clean_text(text):
+def extract_section_title(text):
     """
-    Clean Bible text by removing Strong's numbers and footnotes.
+    Extract section title from verse text if present.
+
+    Args:
+        text (str): The Bible verse text
+
+    Returns:
+        tuple: (section_title, remaining_text) or (None, text) if no title found
+    """
+    if not text:
+        return None, text
+
+    # Match section titles at the beginning: capital letter start, words, ending with <br/>
+    match = re.match(r'^([A-Z][^<]*?)<br/>\s*(.*)', text, re.DOTALL)
+    if match:
+        return match.group(1).strip(), match.group(2).strip()
+
+    return None, text
+
+
+def clean_text(text, remove_section_titles=True):
+    """
+    Clean Bible text by removing Strong's numbers, footnotes, and section titles.
 
     Removes:
     - Strong's concordance numbers: <S>1234</S>
     - Footnote markers and text: <sup>...</sup>
+    - Section titles (optional): "The Beginning<br/>" at start of verse
 
     Args:
         text (str): The Bible verse text with annotations
+        remove_section_titles (bool): Whether to remove section titles (default: True)
 
     Returns:
         str: Cleaned text without annotations
     """
     if not text:
         return text
+
+    # Remove section titles at the beginning (e.g., "The Beginning<br/>")
+    # Pattern: Text at the start followed by <br/> that looks like a title
+    if remove_section_titles:
+        # Match section titles: capital letter start, words, ending with <br/>
+        # This removes titles like "The Beginning<br/>", "Adam and Eve<br/>", etc.
+        text = re.sub(r'^[A-Z][^<]*?<br/>\s*', '', text)
 
     # Remove Strong's numbers: <S>1234</S>
     text = re.sub(r'<S>\d+</S>', '', text)
