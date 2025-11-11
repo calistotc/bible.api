@@ -40,6 +40,7 @@ bible_docs_urlpatterns = [
 # Bible API endpoints (will be prefixed with /bible/)
 bible_urlpatterns = [
     path("api/tag-tool-reference/<slug:translation>/<str:book>/<int:chapter>/<slug:verses>/", views.tag_tool_reference),
+    path("get-languages/", views.get_languages),
     path("get-translation/<slug:translation>/", views.get_translation),
     path("get-paralel-verses/", views.get_parallel_verses),  # typo, DEPRECATED
     path("get-parallel-verses/", views.get_parallel_verses),

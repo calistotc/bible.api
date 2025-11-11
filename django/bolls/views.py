@@ -1128,6 +1128,20 @@ def tag_tool_reference(request, translation, book, chapter, verses):
         return cross_origin(HttpResponse(status=400, content="Something went wrong"))
 
 
+def get_languages(request):
+    """
+    Get all available translations organized by language.
+    Returns languages.json with translations grouped by language.
+    """
+    try:
+        languages_file_path = os.path.join(BASE_DIR, 'bolls', 'data', 'languages.json')
+        with open(languages_file_path, 'r', encoding='utf-8') as f:
+            languages_data = json.load(f)
+        return cross_origin(JsonResponse(languages_data, safe=False))
+    except Exception as e:
+        return cross_origin(HttpResponse(f"Error loading languages: {str(e)}", status=500))
+
+
 def api_documentation(request):
     """
     Render the API documentation page at /bible/docs/

@@ -1010,6 +1010,102 @@ python manage.py load_commentaries
                 <strong>💡 Tip for Beginners:</strong> Always start by fetching the translations list to see what Bible versions are available (KJV, NIV, YLT, etc.).
             </div>
 
+            <!-- Get Languages List -->
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <span class="method method-get">GET</span>
+                    <div class="endpoint-url">/bible/get-languages/</div>
+                </div>
+                <div class="endpoint-description">Get all available Bible translations organized by language. Perfect for building language-based navigation in your app.</div>
+
+                <div class="code-block">
+                    <div class="code-label">Example Request</div>
+                    <div class="code-wrapper">
+                        <button class="copy-button" onclick="copyCode(this)">Copy</button>
+                        <pre><code>curl https://api.prayerpulse.io/bible/get-languages/</code></pre>
+                    </div>
+                </div>
+
+                <div class="code-block">
+                    <div class="code-label">Example Response (Excerpt)</div>
+                    <div class="code-wrapper">
+                        <button class="copy-button" onclick="copyCode(this)">Copy</button>
+                        <pre><code>[
+  {
+    <span class="code-property">"language"</span>: <span class="code-string">"English"</span>,
+    <span class="code-property">"translations"</span>: [
+      {
+        <span class="code-property">"short_name"</span>: <span class="code-string">"KJV"</span>,
+        <span class="code-property">"full_name"</span>: <span class="code-string">"King James Version 1769"</span>,
+        <span class="code-property">"updated"</span>: <span class="code-number">1750968212682</span>
+      },
+      {
+        <span class="code-property">"short_name"</span>: <span class="code-string">"NIV"</span>,
+        <span class="code-property">"full_name"</span>: <span class="code-string">"New International Version, 1984"</span>,
+        <span class="code-property">"updated"</span>: <span class="code-number">1626349711821</span>
+      }
+      <span class="code-comment">// ... 40+ more English translations</span>
+    ]
+  },
+  {
+    <span class="code-property">"language"</span>: <span class="code-string">"Spanish Español"</span>,
+    <span class="code-property">"translations"</span>: [
+      {
+        <span class="code-property">"short_name"</span>: <span class="code-string">"RV1960"</span>,
+        <span class="code-property">"full_name"</span>: <span class="code-string">"Reina-Valera 1960"</span>,
+        <span class="code-property">"updated"</span>: <span class="code-number">1635446313426</span>
+      }
+      <span class="code-comment">// ... more Spanish translations</span>
+    ]
+  }
+  <span class="code-comment">// ... 25+ more languages</span>
+]</code></pre>
+                    </div>
+                </div>
+
+                <div class="params">
+                    <div class="params-title">Response Structure</div>
+                    <div class="param">
+                        <span class="param-name">language</span>
+                        <span class="param-type">string</span>
+                        <div class="param-desc">Language name (e.g., "English", "Spanish Español", "Korean 한국어")</div>
+                    </div>
+                    <div class="param">
+                        <span class="param-name">translations</span>
+                        <span class="param-type">array</span>
+                        <div class="param-desc">Array of Bible translations available in this language</div>
+                    </div>
+                    <div class="param">
+                        <span class="param-name">translations[].short_name</span>
+                        <span class="param-type">string</span>
+                        <div class="param-desc">Translation ID used in API requests (e.g., "KJV", "NIV", "RV1960")</div>
+                    </div>
+                    <div class="param">
+                        <span class="param-name">translations[].full_name</span>
+                        <span class="param-type">string</span>
+                        <div class="param-desc">Full name of the translation</div>
+                    </div>
+                    <div class="param">
+                        <span class="param-name">translations[].updated</span>
+                        <span class="param-type">integer</span>
+                        <div class="param-desc">Last update timestamp (milliseconds since 1970)</div>
+                    </div>
+                    <div class="param">
+                        <span class="param-name">translations[].dir</span>
+                        <span class="param-type">string (optional)</span>
+                        <div class="param-desc">Text direction - "rtl" for right-to-left languages (Hebrew, Arabic, Farsi)</div>
+                    </div>
+                </div>
+
+                <div class="info-box">
+                    <strong>📊 Coverage:</strong> The API currently supports <strong>27 languages</strong> with <strong>150+ Bible translations</strong> including English (40+ versions), Spanish, Portuguese, Ukrainian, Russian, Chinese, Korean, Japanese, German, French, Hebrew, Greek, and many more!
+                </div>
+
+                <div class="info-box">
+                    <strong>💡 Use Case:</strong> Use this endpoint to build a language selector in your app, allowing users to browse translations in their native language. Perfect for multilingual Bible apps!
+                </div>
+            </div>
+
             <!-- Get Translations List -->
             <div class="endpoint">
                 <div class="endpoint-header">
