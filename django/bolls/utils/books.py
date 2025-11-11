@@ -1,5 +1,6 @@
 import json
 import os
+import re
 
 from .score_search import score_search
 
@@ -228,6 +229,36 @@ def is_number(n):
         return True
     except ValueError:
         return False
+
+
+def clean_text(text):
+    """
+    Clean Bible text by removing Strong's numbers and footnotes.
+
+    Removes:
+    - Strong's concordance numbers: <S>1234</S>
+    - Footnote markers and text: <sup>...</sup>
+
+    Args:
+        text (str): The Bible verse text with annotations
+
+    Returns:
+        str: Cleaned text without annotations
+    """
+    if not text:
+        return text
+
+    # Remove Strong's numbers: <S>1234</S>
+    text = re.sub(r'<S>\d+</S>', '', text)
+
+    # Remove footnotes: <sup>...</sup>
+    text = re.sub(r'<sup>.*?</sup>', '', text)
+
+    # Clean up extra whitespace (multiple spaces, spaces before punctuation)
+    text = re.sub(r'\s+', ' ', text)
+    text = re.sub(r'\s+([,;:.!?])', r'\1', text)
+
+    return text.strip()
 
 
 def get_book_id(translation, book_slug):

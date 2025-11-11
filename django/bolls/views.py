@@ -24,7 +24,7 @@ from bolls.forms import SignUpForm
 
 from .models import Verses, Bookmarks, History, Note, Commentary, Dictionary
 
-from .utils.books import BOOKS, get_book_id, is_number
+from .utils.books import BOOKS, get_book_id, is_number, clean_text
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -91,22 +91,33 @@ def get_translation(_, translation):
     return cross_origin(JsonResponse(verses, safe=False))
 
 
-def get_text(_, translation, book, chapter):
+def get_text(request, translation, book, chapter):
     try:
         bookid = get_book_id(translation, book)
         all_objects = Verses.objects.filter(book=bookid, chapter=chapter, translation=translation).order_by("verse")
+
+        # Check if clean parameter is set
+        should_clean = request.GET.get('clean', '').lower() == 'true'
+
         d = []
         for obj in all_objects:
-            d.append({"pk": obj.pk, "verse": obj.verse, "text": obj.text})
+            verse_text = obj.text
+            # Clean text if requested
+            if should_clean:
+                verse_text = clean_text(verse_text)
+            d.append({"pk": obj.pk, "verse": obj.verse, "text": verse_text})
         return cross_origin(JsonResponse(d, safe=False))
     except Exception as e:
         print(e)
         return cross_origin(HttpResponse("The verses were not found", status=404))
 
 
-def get_chapter_with_comments(_, translation, book, chapter):
+def get_chapter_with_comments(request, translation, book, chapter):
     try:
         bookid = get_book_id(translation, book)
+
+        # Check if clean parameter is set
+        should_clean = request.GET.get('clean', '').lower() == 'true'
 
         all_verses = Verses.objects.filter(book=bookid, chapter=chapter, translation=translation).order_by("verse")
 
@@ -114,13 +125,22 @@ def get_chapter_with_comments(_, translation, book, chapter):
 
         d = []
         for obj in all_verses:
-            verse = {"pk": obj.pk, "verse": obj.verse, "text": obj.text}
+            verse_text = obj.text
+            # Clean text if requested
+            if should_clean:
+                verse_text = clean_text(verse_text)
+
+            verse = {"pk": obj.pk, "verse": obj.verse, "text": verse_text}
             comment = ""
             for item in all_commentaries:
                 if item.verse == obj.verse:
                     if len(comment) > 0:
                         comment += "<br>"
-                    comment += item.text
+                    comment_text = item.text
+                    # Clean comment if requested
+                    if should_clean:
+                        comment_text = clean_text(comment_text)
+                    comment += comment_text
             if len(comment) > 0:
                 verse["comment"] = comment
             d.append(verse)
@@ -131,7 +151,7 @@ def get_chapter_with_comments(_, translation, book, chapter):
         return cross_origin(HttpResponse("The verses were not found", status=404))
 
 
-def find(translation, piece, book, match_case, match_whole, page=1, limit=1024):
+def find(translation, piece, book, match_case, match_whole, page=1, limit=1024, should_clean=False):
     d = []
     results_of_search = []
     if match_whole:
@@ -228,6 +248,11 @@ def find(translation, piece, book, match_case, match_whole, page=1, limit=1024):
         exact_matches += len(re.findall(re.escape(piece), obj.text, re.IGNORECASE))
 
     for obj in results_of_search[(page * limit - limit) : (page * limit)]:
+        verse_text = obj.text
+        # Clean text if requested (before highlighting)
+        if should_clean:
+            verse_text = clean_text(verse_text)
+
         d.append(
             {
                 "pk": obj.pk,
@@ -235,7 +260,7 @@ def find(translation, piece, book, match_case, match_whole, page=1, limit=1024):
                 "book": obj.book,
                 "chapter": obj.chapter,
                 "verse": obj.verse,
-                "text": highlight_headline(obj.text),
+                "text": highlight_headline(verse_text),
             }
         )
     return {
@@ -250,12 +275,13 @@ def search(request, translation, piece=""):
         piece = request.GET.get("search", "")
     match_case = request.GET.get("match_case", "") == "true"
     match_whole = request.GET.get("match_whole", "") == "true"
+    should_clean = request.GET.get("clean", "").lower() == "true"
     book = request.GET.get("book", None)
 
     piece = piece.strip()
 
     if len(piece) > 2 or piece.isdigit():
-        result = find(translation, piece, book, match_case, match_whole)
+        result = find(translation, piece, book, match_case, match_whole, should_clean=should_clean)
         return cross_origin(JsonResponse(result["results"], safe=False), headers={"Exact_matches": result["exact_matches"]})
     else:
         return cross_origin(JsonResponse([{"readme": "Your query is not longer than 2 characters! And don't forget to trim it)"}], safe=False, status=400))
@@ -265,13 +291,14 @@ def v2_search(request, translation):
     piece = request.GET.get("search", "")
     match_case = request.GET.get("match_case", "") == "true"
     match_whole = request.GET.get("match_whole", "") == "true"
+    should_clean = request.GET.get("clean", "").lower() == "true"
     book = request.GET.get("book", None)
     page = request.GET.get("page", 1)
     limit = request.GET.get("limit", 128)
 
     piece = piece.strip()
     if len(piece) > 2 or piece.isdigit():
-        result = find(translation, piece, book, match_case, match_whole, int(page), int(limit))
+        result = find(translation, piece, book, match_case, match_whole, int(page), int(limit), should_clean=should_clean)
         return cross_origin(JsonResponse(result, safe=False))
     else:
         return cross_origin(JsonResponse([{"readme": "Your query is not longer than 2 characters! And don't forget to trim it)"}], safe=False, status=400))
@@ -522,17 +549,25 @@ def get_verses(request):
         return cross_origin(HttpResponse(incorrect_body + str(request.body), status=400))
 
 
-def get_a_verse(_, translation, book, chapter, verse):
+def get_a_verse(request, translation, book, chapter, verse):
     try:
         bookid = get_book_id(translation, book)
         verses = Verses.objects.filter(book=bookid, chapter=chapter, translation=translation, verse=verse)
 
+        # Check if clean parameter is set
+        should_clean = request.GET.get('clean', '').lower() == 'true'
+
         result_verse = {}
         if len(verses):
+            verse_text = verses[0].text
+            # Clean text if requested
+            if should_clean:
+                verse_text = clean_text(verse_text)
+
             result_verse = {
                 "pk": verses[0].pk,
                 "verse": verses[0].verse,
-                "text": verses[0].text,
+                "text": verse_text,
             }
         else:
             return cross_origin(HttpResponse("The verse is not found", status=404))
@@ -544,7 +579,11 @@ def get_a_verse(_, translation, book, chapter, verse):
             if item.verse == result_verse["verse"]:
                 if len(comment) > 0:
                     comment += "<br>"
-                comment += item.text
+                comment_text = item.text
+                # Clean comment if requested
+                if should_clean:
+                    comment_text = clean_text(comment_text)
+                comment += comment_text
         if len(comment) > 0:
             result_verse["comment"] = comment
 
