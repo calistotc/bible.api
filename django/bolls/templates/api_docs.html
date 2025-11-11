@@ -577,6 +577,7 @@
             <div class="nav-section-title">Advanced Features</div>
             <a href="#parallel-verses" class="nav-link">Compare Versions</a>
             <a href="#fetch-multiple" class="nav-link">Fetch Multiple Verses</a>
+            <a href="#cross-references" class="nav-link">Cross-References</a>
             <a href="#dictionary" class="nav-link">Hebrew/Greek Dictionary</a>
             <a href="#download" class="nav-link">Download Translations</a>
         </div>
@@ -798,6 +799,171 @@ fetch('https://api.prayerpulse.io/bible/get-verse/NIV/Genesis/1/1/')
 
             <div class="info-box">
                 <strong>💡 Best Practice:</strong> Store the full text (with section titles) in your database, then use <span class="inline-code">?clean=true</span> when you want to display just the verse text. This gives you maximum flexibility!
+            </div>
+        </section>
+
+        <!-- Cross-References and Commentaries -->
+        <section id="cross-references" class="section">
+            <h2>📖 Cross-References & Commentaries</h2>
+            <p>The Bible API provides cross-references (also known as concordance or parallel passages) and commentaries that enrich Bible study by showing how verses relate to each other and providing scholarly notes.</p>
+
+            <h3>🔗 What are Cross-References?</h3>
+            <div class="info-box">
+                <strong>Cross-References</strong> are links to other Bible passages that are thematically or theologically related. They help readers understand connections between different parts of Scripture.
+            </div>
+
+            <p>For example, Genesis 3:24 (the cherubim guarding Eden) has cross-references to Ezekiel 1:5-12 and 10:21, which also describe cherubim.</p>
+
+            <h3>📚 How to Access Cross-References</h3>
+            <p>Cross-references and commentaries are automatically included in the <span class="inline-code">comment</span> field when you request verses or chapters using certain translations (currently RNKSV Korean translation has extensive cross-references).</p>
+
+            <div class="code-block">
+                <div class="code-label">Get Verse with Cross-References</div>
+                <div class="code-wrapper">
+                    <button class="copy-button" onclick="copyCode(this)">Copy</button>
+                    <pre><code>GET https://api.prayerpulse.io/bible/get-verse/RNKSV/Genesis/3/24/
+
+Response:
+{
+  "pk": 123456,
+  "verse": 24,
+  "text": "이렇게 그분께서는 사람을 쫓아내시고...",
+  "comment": "[12] 살아 있는 피조물, 날개와 얼굴을 가지고 있는 것으로 생각됨(&lt;a href='/RNKSV/26/1/5-12'&gt;겔  1:5-12&lt;/a&gt;; &lt;a href='/RNKSV/26/10/21'&gt;10:21&lt;/a&gt;)"
+}</code></pre>
+                </div>
+            </div>
+
+            <div class="code-block">
+                <div class="code-label">Get Chapter with All Cross-References</div>
+                <div class="code-wrapper">
+                    <button class="copy-button" onclick="copyCode(this)">Copy</button>
+                    <pre><code>GET https://api.prayerpulse.io/bible/get-chapter/RNKSV/Genesis/1/
+
+Response:
+[
+  {
+    "pk": 1,
+    "verse": 1,
+    "text": "태초에 하나님이 하늘과 땅을 창조하셨다.",
+    "comment": "[1] 또는 '태초에 하나님이 천지를 창조하실 때에'..."
+  },
+  {
+    "pk": 2,
+    "verse": 2,
+    "text": "땅은 형체가 없고 텅 비어 있었는데...",
+    "comment": "[2] 또는 '하나님의 바람' 또는 '강한 바람'"
+  }
+  // ... more verses with commentaries
+]</code></pre>
+                </div>
+            </div>
+
+            <h3>🔍 Understanding the Comment Field</h3>
+            <p>The <span class="inline-code">comment</span> field contains:</p>
+            <ul>
+                <li>📝 <strong>Textual Notes:</strong> Explanations of translation choices and alternative readings</li>
+                <li>🔗 <strong>Cross-References:</strong> HTML links to related passages (format: <span class="inline-code">&lt;a href='/TRANSLATION/BOOK/CHAPTER/VERSE'&gt;Reference&lt;/a&gt;</span>)</li>
+                <li>📚 <strong>Scholarly Commentary:</strong> Context and theological insights</li>
+            </ul>
+
+            <h3>💻 Parsing Cross-References in Your App</h3>
+            <div class="code-block">
+                <div class="code-label">JavaScript Example - Extract Cross-References</div>
+                <div class="code-wrapper">
+                    <button class="copy-button" onclick="copyCode(this)">Copy</button>
+                    <pre><code>// Fetch verse with commentary
+fetch('https://api.prayerpulse.io/bible/get-verse/RNKSV/Genesis/3/24/')
+  .then(res => res.json())
+  .then(data => {
+    if (data.comment) {
+      // Parse HTML to extract cross-reference links
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(data.comment, 'text/html');
+      const links = doc.querySelectorAll('a');
+
+      links.forEach(link => {
+        const href = link.getAttribute('href');
+        const text = link.textContent;
+
+        console.log(`Reference: ${text}`);
+        console.log(`Link: ${href}`);
+
+        // Convert to API URL format
+        const apiUrl = `https://api.prayerpulse.io/bible${href}`;
+        console.log(`API URL: ${apiUrl}`);
+
+        // You can now fetch these related verses
+        // fetch(apiUrl).then(...)
+      });
+    }
+  });</code></pre>
+                </div>
+            </div>
+
+            <div class="code-block">
+                <div class="code-label">Python Example - Extract Cross-References</div>
+                <div class="code-wrapper">
+                    <button class="copy-button" onclick="copyCode(this)">Copy</button>
+                    <pre><code>import re
+import requests
+from bs4 import BeautifulSoup
+
+# Fetch verse with commentary
+response = requests.get('https://api.prayerpulse.io/bible/get-verse/RNKSV/Genesis/3/24/')
+data = response.json()
+
+if 'comment' in data:
+    # Parse HTML comment to extract links
+    soup = BeautifulSoup(data['comment'], 'html.parser')
+    links = soup.find_all('a')
+
+    for link in links:
+        href = link.get('href')
+        text = link.get_text()
+
+        print(f"Reference: {text}")
+        print(f"Link: {href}")
+
+        # Convert to API URL and fetch related verse
+        api_url = f"https://api.prayerpulse.io/bible{href}"
+        related_verse = requests.get(api_url).json()
+        print(f"Related text: {related_verse['text'][:50]}...")
+</code></pre>
+                </div>
+            </div>
+
+            <h3>🎯 Use Cases for Cross-References</h3>
+            <ul>
+                <li>📖 <strong>Bible Study Apps:</strong> Show related passages to help users understand context</li>
+                <li>🔍 <strong>Topical Study:</strong> Trace themes across the entire Bible (e.g., prophecy fulfillment)</li>
+                <li>📚 <strong>Sermon Preparation:</strong> Find supporting verses for teaching</li>
+                <li>🧭 <strong>Navigation:</strong> Allow users to jump between related passages</li>
+                <li>🎓 <strong>Educational Tools:</strong> Display scholarly notes and translation variants</li>
+            </ul>
+
+            <h3>⚙️ Loading Commentaries (For Self-Hosted Deployments)</h3>
+            <p>If you're self-hosting the Prayer Pulse Bible API, you'll need to load the commentaries into your database:</p>
+
+            <div class="code-block">
+                <div class="code-label">Django Management Command</div>
+                <div class="code-wrapper">
+                    <button class="copy-button" onclick="copyCode(this)">Copy</button>
+                    <pre><code># Navigate to the Django directory
+cd django/
+
+# Load all commentaries and cross-references from CSV
+python manage.py load_commentaries
+
+# This will import 3,780+ commentary entries including cross-references</code></pre>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <strong>📊 Current Coverage:</strong> The commentaries database includes 3,780+ entries for the RNKSV (Korean) translation with extensive cross-references. Additional translations and commentaries can be added by following the same CSV format.
+            </div>
+
+            <div class="info-box">
+                <strong>💡 Pro Tip:</strong> When displaying cross-references, consider showing them as clickable links that fetch and display the related verse inline. This creates a rich, interconnected Bible reading experience!
             </div>
         </section>
 
