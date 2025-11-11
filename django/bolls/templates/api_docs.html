@@ -561,16 +561,29 @@
         </div>
 
         <div class="nav-section">
-            <div class="nav-section-title">Endpoints</div>
-            <a href="#verses" class="nav-link">Verses</a>
+            <div class="nav-section-title">Core Endpoints</div>
+            <a href="#translations-list" class="nav-link">Get All Translations</a>
+            <a href="#verses" class="nav-link">Verses & Chapters</a>
             <a href="#search" class="nav-link">Search</a>
             <a href="#books" class="nav-link">Books & Metadata</a>
-            <a href="#user-features" class="nav-link">User Features</a>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-section-title">Advanced Features</div>
+            <a href="#parallel-verses" class="nav-link">Compare Versions</a>
+            <a href="#fetch-multiple" class="nav-link">Fetch Multiple Verses</a>
+            <a href="#dictionary" class="nav-link">Hebrew/Greek Dictionary</a>
+            <a href="#download" class="nav-link">Download Translations</a>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-section-title">User Features</div>
+            <a href="#user-features" class="nav-link">Bookmarks & Notes</a>
         </div>
 
         <div class="nav-section">
             <div class="nav-section-title">Reference</div>
-            <a href="#translations" class="nav-link">Translations</a>
+            <a href="#translations" class="nav-link">Available Translations</a>
             <a href="#book-numbers" class="nav-link">Book Numbers</a>
             <a href="#error-codes" class="nav-link">Error Codes</a>
         </div>
@@ -640,10 +653,80 @@
             </div>
         </section>
 
+        <!-- Get All Translations -->
+        <section id="translations-list" class="section">
+            <h2>Get All Translations</h2>
+            <p>Before fetching Bible text, get a list of all available translations and their books. This is essential for knowing which translations you can work with.</p>
+
+            <div class="info-box">
+                <strong>💡 Tip for Beginners:</strong> Always start by fetching the translations list to see what Bible versions are available (KJV, NIV, YLT, etc.).
+            </div>
+
+            <!-- Get Translations List -->
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <span class="method method-get">GET</span>
+                    <div class="endpoint-url">/get-translations/</div>
+                </div>
+                <div class="endpoint-description">Get a complete list of all available Bible translations.</div>
+
+                <div class="code-block">
+                    <div class="code-label">Example Request</div>
+                    <div class="code-wrapper">
+                        <button class="copy-button" onclick="copyCode(this)">Copy</button>
+                        <pre><code>curl https://api.prayerpulse.io/get-translations/</code></pre>
+                    </div>
+                </div>
+
+                <div class="code-block">
+                    <div class="code-label">Example Response</div>
+                    <div class="code-wrapper">
+                        <button class="copy-button" onclick="copyCode(this)">Copy</button>
+                        <pre><code>[
+  {
+    <span class="code-property">"short_name"</span>: <span class="code-string">"YLT"</span>,
+    <span class="code-property">"full_name"</span>: <span class="code-string">"Young's Literal Translation"</span>,
+    <span class="code-property">"updated"</span>: <span class="code-number">1613548800000</span>
+  },
+  {
+    <span class="code-property">"short_name"</span>: <span class="code-string">"KJV"</span>,
+    <span class="code-property">"full_name"</span>: <span class="code-string">"King James Version"</span>,
+    <span class="code-property">"updated"</span>: <span class="code-number">1613548800000</span>
+  }
+]</code></pre>
+                    </div>
+                </div>
+
+                <div class="params">
+                    <div class="params-title">Response Fields</div>
+                    <div class="param">
+                        <span class="param-name">short_name</span>
+                        <span class="param-type">string</span>
+                        <div class="param-desc">Translation ID used in API requests (e.g., "YLT", "KJV")</div>
+                    </div>
+                    <div class="param">
+                        <span class="param-name">full_name</span>
+                        <span class="param-type">string</span>
+                        <div class="param-desc">Full name of the translation</div>
+                    </div>
+                    <div class="param">
+                        <span class="param-name">updated</span>
+                        <span class="param-type">integer</span>
+                        <div class="param-desc">Last update timestamp (milliseconds since 1970)</div>
+                    </div>
+                    <div class="param">
+                        <span class="param-name">dir</span>
+                        <span class="param-type">string (optional)</span>
+                        <div class="param-desc">Text direction ("rtl" for right-to-left languages like Hebrew/Arabic)</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- Verses Endpoints -->
         <section id="verses" class="section">
-            <h2>Verses</h2>
-            <p>Retrieve Bible verses, chapters, and random verses.</p>
+            <h2>Verses & Chapters</h2>
+            <p>Retrieve Bible verses, chapters, and random verses. You can get individual verses or entire chapters with or without commentaries.</p>
 
             <!-- Get Single Verse -->
             <div class="endpoint">
@@ -730,13 +813,49 @@
                 </div>
             </div>
 
+            <!-- Get Chapter with Commentaries -->
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <span class="method method-get">GET</span>
+                    <div class="endpoint-url">/get-chapter/{translation}/{book}/{chapter}/</div>
+                </div>
+                <div class="endpoint-description">Retrieve all verses from a specific chapter WITH commentaries and study notes.</div>
+
+                <div class="info-box">
+                    <strong>What's the difference?</strong> Use <span class="inline-code">/get-text/</span> for just the verses, or <span class="inline-code">/get-chapter/</span> to include commentary and study notes.
+                </div>
+
+                <div class="code-block">
+                    <div class="code-label">Example Request</div>
+                    <div class="code-wrapper">
+                        <button class="copy-button" onclick="copyCode(this)">Copy</button>
+                        <pre><code>curl https://api.prayerpulse.io/get-chapter/NKJV/43/3/</code></pre>
+                    </div>
+                </div>
+
+                <div class="code-block">
+                    <div class="code-label">Example Response</div>
+                    <div class="code-wrapper">
+                        <button class="copy-button" onclick="copyCode(this)">Copy</button>
+                        <pre><code>[
+  {
+    <span class="code-property">"pk"</span>: <span class="code-number">26118</span>,
+    <span class="code-property">"verse"</span>: <span class="code-number">1</span>,
+    <span class="code-property">"text"</span>: <span class="code-string">"There was a man of the Pharisees named Nicodemus..."</span>,
+    <span class="code-property">"comment"</span>: <span class="code-string">"&lt;i&gt;Nicodemus was a prominent Jewish leader...&lt;/i&gt;"</span>
+  }
+]</code></pre>
+                    </div>
+                </div>
+            </div>
+
             <!-- Random Verse -->
             <div class="endpoint">
                 <div class="endpoint-header">
                     <span class="method method-get">GET</span>
                     <div class="endpoint-url">/get-random-verse/{translation}/</div>
                 </div>
-                <div class="endpoint-description">Get a random Bible verse from the specified translation.</div>
+                <div class="endpoint-description">Get a random Bible verse from the specified translation. Perfect for daily devotionals or inspiration!</div>
 
                 <div class="code-block">
                     <div class="code-label">Example Request</div>
@@ -745,40 +864,97 @@
                         <pre><code>curl https://api.prayerpulse.io/get-random-verse/YLT/</code></pre>
                     </div>
                 </div>
+
+                <div class="code-block">
+                    <div class="code-label">Example Response</div>
+                    <div class="code-wrapper">
+                        <button class="copy-button" onclick="copyCode(this)">Copy</button>
+                        <pre><code>{
+  <span class="code-property">"pk"</span>: <span class="code-number">31073</span>,
+  <span class="code-property">"translation"</span>: <span class="code-string">"YLT"</span>,
+  <span class="code-property">"book"</span>: <span class="code-number">9</span>,
+  <span class="code-property">"chapter"</span>: <span class="code-number">24</span>,
+  <span class="code-property">"verse"</span>: <span class="code-number">19</span>,
+  <span class="code-property">"text"</span>: <span class="code-string">"and that a man doth find his enemy..."</span>
+}</code></pre>
+                    </div>
+                </div>
             </div>
         </section>
 
         <!-- Search Endpoints -->
         <section id="search" class="section">
             <h2>Search</h2>
-            <p>Search for verses containing specific keywords or phrases.</p>
+            <p>Search for verses containing specific keywords or phrases. Supports Hebrew, Greek, and any language. Advanced filters available for precise searching.</p>
 
+            <div class="info-box">
+                <strong>🔍 Multi-Language Support:</strong> Search works in any language! Try searching in Hebrew (שָּׁמַ֖יִם), Greek (ὁ θεὸς), Chinese (淵 面 黑 暗), or any other language.
+            </div>
+
+            <!-- Basic Search -->
             <div class="endpoint">
                 <div class="endpoint-header">
                     <span class="method method-get">GET</span>
-                    <div class="endpoint-url">/search/{translation}/{query}/</div>
+                    <div class="endpoint-url">/v2/find/{translation}?search={query}</div>
                 </div>
-                <div class="endpoint-description">Search for verses containing the specified text.</div>
+                <div class="endpoint-description">Search for verses containing the specified text with optional filters.</div>
 
                 <div class="params">
                     <div class="params-title">Path Parameters</div>
                     <div class="param">
                         <span class="param-name">translation</span>
                         <span class="param-type">string</span>
-                        <div class="param-desc">Translation code</div>
+                        <div class="param-desc">Translation code (e.g., YLT, KJV, WLC for Hebrew)</div>
+                    </div>
+                </div>
+
+                <div class="params">
+                    <div class="params-title">Query Parameters</div>
+                    <div class="param">
+                        <span class="param-name">search</span>
+                        <span class="param-type">string</span>
+                        <div class="param-desc">Search term or phrase (any language)</div>
                     </div>
                     <div class="param">
-                        <span class="param-name">query</span>
-                        <span class="param-type">string</span>
-                        <div class="param-desc">Search term or phrase</div>
+                        <span class="param-name">match_case</span>
+                        <span class="param-type">boolean (optional)</span>
+                        <div class="param-desc">Case-sensitive search (default: false)</div>
+                    </div>
+                    <div class="param">
+                        <span class="param-name">match_whole</span>
+                        <span class="param-type">boolean (optional)</span>
+                        <div class="param-desc">Match whole word only (default: false)</div>
+                    </div>
+                    <div class="param">
+                        <span class="param-name">book</span>
+                        <span class="param-type">string (optional)</span>
+                        <div class="param-desc">Filter by book number, "ot" (Old Testament), or "nt" (New Testament)</div>
+                    </div>
+                    <div class="param">
+                        <span class="param-name">page</span>
+                        <span class="param-type">integer (optional)</span>
+                        <div class="param-desc">Page number for pagination (default: 1)</div>
+                    </div>
+                    <div class="param">
+                        <span class="param-name">limit</span>
+                        <span class="param-type">integer (optional)</span>
+                        <div class="param-desc">Results per page (default: 50, max: 128)</div>
                     </div>
                 </div>
 
                 <div class="code-block">
-                    <div class="code-label">Example Request</div>
+                    <div class="code-label">Simple Search</div>
                     <div class="code-wrapper">
                         <button class="copy-button" onclick="copyCode(this)">Copy</button>
-                        <pre><code>curl https://api.prayerpulse.io/search/YLT/love/</code></pre>
+                        <pre><code>curl "https://api.prayerpulse.io/v2/find/YLT?search=love"</code></pre>
+                    </div>
+                </div>
+
+                <div class="code-block">
+                    <div class="code-label">Advanced Search (Exact Match, Old Testament Only)</div>
+                    <div class="code-wrapper">
+                        <button class="copy-button" onclick="copyCode(this)">Copy</button>
+                        <pre><code>curl "https://api.prayerpulse.io/v2/find/YLT?search=Haggi&match_case=false&match_whole=true&book=ot&page=1&limit=50"</code></pre>
                     </div>
                 </div>
 
@@ -787,13 +963,16 @@
                     <div class="code-wrapper">
                         <button class="copy-button" onclick="copyCode(this)">Copy</button>
                         <pre><code>{
-  <span class="code-property">"verses"</span>: [
+  <span class="code-property">"exact_matches"</span>: <span class="code-number">12</span>,
+  <span class="code-property">"total"</span>: <span class="code-number">534</span>,
+  <span class="code-property">"results"</span>: [
     {
       <span class="code-property">"pk"</span>: <span class="code-number">26133</span>,
+      <span class="code-property">"translation"</span>: <span class="code-string">"YLT"</span>,
       <span class="code-property">"book"</span>: <span class="code-number">43</span>,
       <span class="code-property">"chapter"</span>: <span class="code-number">3</span>,
       <span class="code-property">"verse"</span>: <span class="code-number">16</span>,
-      <span class="code-property">"text"</span>: <span class="code-string">"for God did so love the world..."</span>
+      <span class="code-property">"text"</span>: <span class="code-string">"for God did so &lt;strong&gt;love&lt;/strong&gt; the world..."</span>
     }
   ]
 }</code></pre>
@@ -855,6 +1034,286 @@
                     <div class="endpoint-url">/get-bookmarks/{translation}/{book}/{chapter}/</div>
                 </div>
                 <div class="endpoint-description">Retrieve user bookmarks for a specific chapter.</div>
+            </div>
+        </section>
+
+        <!-- Parallel Verses (Compare Versions) -->
+        <section id="parallel-verses" class="section">
+            <h2>Compare Versions (Parallel Verses)</h2>
+            <p>Compare the same verses across multiple Bible translations side-by-side. Perfect for Bible study and translation comparison!</p>
+
+            <div class="info-box">
+                <strong>📖 Use Case:</strong> Want to see how John 3:16 reads in KJV, NIV, and YLT? This endpoint returns all three versions at once!
+            </div>
+
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <span class="method method-post">POST</span>
+                    <div class="endpoint-url">/get-parallel-verses/</div>
+                </div>
+                <div class="endpoint-description">Compare specific verses across multiple translations.</div>
+
+                <div class="params">
+                    <div class="params-title">Request Body (JSON)</div>
+                    <div class="param">
+                        <span class="param-name">translations</span>
+                        <span class="param-type">array of strings</span>
+                        <div class="param-desc">List of translation codes (e.g., ["YLT", "KJV", "NIV"])</div>
+                    </div>
+                    <div class="param">
+                        <span class="param-name">verses</span>
+                        <span class="param-type">array of integers</span>
+                        <div class="param-desc">List of verse numbers to compare (e.g., [1, 2, 3])</div>
+                    </div>
+                    <div class="param">
+                        <span class="param-name">book</span>
+                        <span class="param-type">integer</span>
+                        <div class="param-desc">Book number (1-66)</div>
+                    </div>
+                    <div class="param">
+                        <span class="param-name">chapter</span>
+                        <span class="param-type">integer</span>
+                        <div class="param-desc">Chapter number</div>
+                    </div>
+                </div>
+
+                <div class="code-block">
+                    <div class="code-label">Example Request (JavaScript)</div>
+                    <div class="code-wrapper">
+                        <button class="copy-button" onclick="copyCode(this)">Copy</button>
+                        <pre><code><span class="code-keyword">fetch</span>(<span class="code-string">"https://api.prayerpulse.io/get-parallel-verses/"</span>, {
+  <span class="code-property">method</span>: <span class="code-string">"POST"</span>,
+  <span class="code-property">headers</span>: { <span class="code-string">"Content-Type"</span>: <span class="code-string">"application/json"</span> },
+  <span class="code-property">body</span>: <span class="code-keyword">JSON</span>.stringify({
+    <span class="code-property">translations</span>: [<span class="code-string">"YLT"</span>, <span class="code-string">"KJV"</span>, <span class="code-string">"WEB"</span>],
+    <span class="code-property">verses</span>: [<span class="code-number">3</span>, <span class="code-number">4</span>, <span class="code-number">5</span>],
+    <span class="code-property">book</span>: <span class="code-number">43</span>,
+    <span class="code-property">chapter</span>: <span class="code-number">1</span>
+  })
+}).<span class="code-keyword">then</span>(res => res.json())</code></pre>
+                    </div>
+                </div>
+
+                <div class="code-block">
+                    <div class="code-label">cURL Example</div>
+                    <div class="code-wrapper">
+                        <button class="copy-button" onclick="copyCode(this)">Copy</button>
+                        <pre><code>curl -X POST https://api.prayerpulse.io/get-parallel-verses/ \
+  -H "Content-Type: application/json" \
+  -d '{"translations":["YLT","KJV"],"verses":[16],"book":43,"chapter":3}'</code></pre>
+                    </div>
+                </div>
+
+                <div class="code-block">
+                    <div class="code-label">Example Response</div>
+                    <div class="code-wrapper">
+                        <button class="copy-button" onclick="copyCode(this)">Copy</button>
+                        <pre><code>[
+  <span class="code-comment">// YLT Translation</span>
+  [
+    {
+      <span class="code-property">"pk"</span>: <span class="code-number">26133</span>,
+      <span class="code-property">"translation"</span>: <span class="code-string">"YLT"</span>,
+      <span class="code-property">"book"</span>: <span class="code-number">43</span>,
+      <span class="code-property">"chapter"</span>: <span class="code-number">3</span>,
+      <span class="code-property">"verse"</span>: <span class="code-number">16</span>,
+      <span class="code-property">"text"</span>: <span class="code-string">"for God did so love the world..."</span>
+    }
+  ],
+  <span class="code-comment">// KJV Translation</span>
+  [
+    {
+      <span class="code-property">"pk"</span>: <span class="code-number">2743736</span>,
+      <span class="code-property">"translation"</span>: <span class="code-string">"KJV"</span>,
+      <span class="code-property">"book"</span>: <span class="code-number">43</span>,
+      <span class="code-property">"chapter"</span>: <span class="code-number">3</span>,
+      <span class="code-property">"verse"</span>: <span class="code-number">16</span>,
+      <span class="code-property">"text"</span>: <span class="code-string">"For God so loved the world..."</span>
+    }
+  ]
+]</code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Fetch Multiple Verses -->
+        <section id="fetch-multiple" class="section">
+            <h2>Fetch Multiple Verses</h2>
+            <p>Need to fetch several verses from different books or chapters in one request? This endpoint lets you grab multiple verses efficiently!</p>
+
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <span class="method method-post">POST</span>
+                    <div class="endpoint-url">/get-verses/</div>
+                </div>
+                <div class="endpoint-description">Fetch multiple verses from different locations in the Bible.</div>
+
+                <div class="params">
+                    <div class="params-title">Request Body (JSON Array)</div>
+                    <div class="param">
+                        <span class="param-name">translation</span>
+                        <span class="param-type">string</span>
+                        <div class="param-desc">Translation code</div>
+                    </div>
+                    <div class="param">
+                        <span class="param-name">book</span>
+                        <span class="param-type">integer</span>
+                        <div class="param-desc">Book number</div>
+                    </div>
+                    <div class="param">
+                        <span class="param-name">chapter</span>
+                        <span class="param-type">integer</span>
+                        <div class="param-desc">Chapter number</div>
+                    </div>
+                    <div class="param">
+                        <span class="param-name">verses</span>
+                        <span class="param-type">array of integers</span>
+                        <div class="param-desc">Array of verse numbers</div>
+                    </div>
+                </div>
+
+                <div class="code-block">
+                    <div class="code-label">Example Request (JavaScript)</div>
+                    <div class="code-wrapper">
+                        <button class="copy-button" onclick="copyCode(this)">Copy</button>
+                        <pre><code><span class="code-keyword">fetch</span>(<span class="code-string">"/get-verses/"</span>, {
+  <span class="code-property">method</span>: <span class="code-string">"POST"</span>,
+  <span class="code-property">headers</span>: { <span class="code-string">"Content-Type"</span>: <span class="code-string">"application/json"</span> },
+  <span class="code-property">body</span>: <span class="code-keyword">JSON</span>.stringify([
+    {
+      <span class="code-property">translation</span>: <span class="code-string">"YLT"</span>,
+      <span class="code-property">book</span>: <span class="code-number">19</span>,
+      <span class="code-property">chapter</span>: <span class="code-number">23</span>,
+      <span class="code-property">verses</span>: [<span class="code-number">1</span>, <span class="code-number">2</span>, <span class="code-number">3</span>]
+    },
+    {
+      <span class="code-property">translation</span>: <span class="code-string">"KJV"</span>,
+      <span class="code-property">book</span>: <span class="code-number">43</span>,
+      <span class="code-property">chapter</span>: <span class="code-number">3</span>,
+      <span class="code-property">verses</span>: [<span class="code-number">16</span>]
+    }
+  ])
+}).<span class="code-keyword">then</span>(res => res.json())</code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dictionary Definitions -->
+        <section id="dictionary" class="section">
+            <h2>Hebrew & Greek Dictionary</h2>
+            <p>Look up definitions for Hebrew and Greek words directly from Strong's Concordance and other lexicons. Perfect for word studies!</p>
+
+            <div class="info-box">
+                <strong>🔤 Search Options:</strong> Search by Hebrew/Greek word, Strong's number (H125, G523), or even English/Russian words to find related definitions.
+            </div>
+
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <span class="method method-get">GET</span>
+                    <div class="endpoint-url">/dictionary-definition/{dict}/{query}/</div>
+                </div>
+                <div class="endpoint-description">Get dictionary definitions for Hebrew or Greek words.</div>
+
+                <div class="params">
+                    <div class="params-title">Path Parameters</div>
+                    <div class="param">
+                        <span class="param-name">dict</span>
+                        <span class="param-type">string</span>
+                        <div class="param-desc">Dictionary code: "BDBT" (Brown-Driver-Briggs/Thayer) or "RUSD" (Russian Strong/Dvoretsky)</div>
+                    </div>
+                    <div class="param">
+                        <span class="param-name">query</span>
+                        <span class="param-type">string</span>
+                        <div class="param-desc">Hebrew/Greek word, Strong's number (H125/G523), or English/Russian word</div>
+                    </div>
+                </div>
+
+                <div class="params">
+                    <div class="params-title">Query Parameters</div>
+                    <div class="param">
+                        <span class="param-name">extended</span>
+                        <span class="param-type">boolean (optional)</span>
+                        <div class="param-desc">Return extended search results (default: false)</div>
+                    </div>
+                </div>
+
+                <div class="code-block">
+                    <div class="code-label">Search by Hebrew Word</div>
+                    <div class="code-wrapper">
+                        <button class="copy-button" onclick="copyCode(this)">Copy</button>
+                        <pre><code>curl https://api.prayerpulse.io/dictionary-definition/BDBT/אֹ֑ור/</code></pre>
+                    </div>
+                </div>
+
+                <div class="code-block">
+                    <div class="code-label">Search by Strong's Number</div>
+                    <div class="code-wrapper">
+                        <button class="copy-button" onclick="copyCode(this)">Copy</button>
+                        <pre><code>curl https://api.prayerpulse.io/dictionary-definition/BDBT/H216/</code></pre>
+                    </div>
+                </div>
+
+                <div class="code-block">
+                    <div class="code-label">Example Response</div>
+                    <div class="code-wrapper">
+                        <button class="copy-button" onclick="copyCode(this)">Copy</button>
+                        <pre><code>[
+  {
+    <span class="code-property">"topic"</span>: <span class="code-string">"H216"</span>,
+    <span class="code-property">"lexeme"</span>: <span class="code-string">"אוֹר"</span>,
+    <span class="code-property">"transliteration"</span>: <span class="code-string">"'ôwr"</span>,
+    <span class="code-property">"pronunciation"</span>: <span class="code-string">"ore"</span>,
+    <span class="code-property">"short_definition"</span>: <span class="code-string">"light"</span>,
+    <span class="code-property">"definition"</span>: <span class="code-string">"&lt;p&gt;light, daylight, illumination...&lt;/p&gt;"</span>,
+    <span class="code-property">"weight"</span>: <span class="code-number">1.0</span>
+  }
+]</code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Download Translations -->
+        <section id="download" class="section">
+            <h2>Download Full Translations</h2>
+            <p>Download entire Bible translations as JSON or ZIP files for offline use or bulk processing.</p>
+
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <span class="method method-get">GET</span>
+                    <div class="endpoint-url">/static/translations/{translation}.json</div>
+                </div>
+                <div class="endpoint-description">Download a complete translation in JSON format.</div>
+
+                <div class="code-block">
+                    <div class="code-label">Download JSON</div>
+                    <div class="code-wrapper">
+                        <button class="copy-button" onclick="copyCode(this)">Copy</button>
+                        <pre><code>curl https://api.prayerpulse.io/static/translations/YLT.json -O</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <span class="method method-get">GET</span>
+                    <div class="endpoint-url">/static/translations/{translation}.zip</div>
+                </div>
+                <div class="endpoint-description">Download a complete translation in compressed ZIP format.</div>
+
+                <div class="code-block">
+                    <div class="code-label">Download ZIP</div>
+                    <div class="code-wrapper">
+                        <button class="copy-button" onclick="copyCode(this)">Copy</button>
+                        <pre><code>curl https://api.prayerpulse.io/static/translations/KJV.zip -O</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="warning-box info-box">
+                <strong>⚠️ Large Files:</strong> Full translations can be several megabytes. Consider downloading during off-peak hours if bandwidth is limited.
             </div>
         </section>
 
