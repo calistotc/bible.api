@@ -5,6 +5,7 @@ from django.conf.urls import handler404, handler500, include
 urlpatterns = [
     path("", include("social_django.urls", namespace="social")),
     path("", views.index, name="index"),
+    path("bible/docs/", views.api_documentation, name="api_docs"),
     path("signup/", views.sign_up, name="signup"),
     path("api/", views.api),
     path("history/", views.history),

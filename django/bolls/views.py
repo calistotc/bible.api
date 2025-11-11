@@ -1083,3 +1083,10 @@ def tag_tool_reference(request, translation, book, chapter, verses):
     except Exception as error:
         print(error)
         return cross_origin(HttpResponse(status=400, content="Something went wrong"))
+
+
+def api_documentation(request):
+    """
+    Render the API documentation page at /bible/docs/
+    """
+    return render(request, 'api_docs.html')

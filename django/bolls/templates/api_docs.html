@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PrayerPulse Bible API Documentation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .content {
+            background: white;
+            margin: 2rem auto;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            max-width: 1200px;
+        }
+
+        h2 {
+            color: #667eea;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #667eea;
+        }
+
+        h3 {
+            color: #764ba2;
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .endpoint {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-radius: 6px;
+            border-left: 4px solid #667eea;
+        }
+
+        .method {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 0.875rem;
+            margin-right: 0.5rem;
+        }
+
+        .method.get {
+            background: #28a745;
+            color: white;
+        }
+
+        .method.post {
+            background: #007bff;
+            color: white;
+        }
+
+        .url {
+            font-family: 'Courier New', monospace;
+            background: #e9ecef;
+            padding: 0.5rem;
+            border-radius: 4px;
+            display: inline-block;
+            margin: 0.5rem 0;
+        }
+
+        .description {
+            margin: 1rem 0;
+            color: #555;
+        }
+
+        .parameters {
+            margin: 1rem 0;
+        }
+
+        .param {
+            padding: 0.5rem;
+            margin: 0.25rem 0;
+            background: white;
+            border-radius: 4px;
+        }
+
+        .param-name {
+            font-weight: bold;
+            color: #764ba2;
+            font-family: monospace;
+        }
+
+        .example {
+            background: #2d3748;
+            color: #68d391;
+            padding: 1rem;
+            border-radius: 6px;
+            margin: 1rem 0;
+            overflow-x: auto;
+        }
+
+        .example code {
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+
+        .response {
+            background: #2d3748;
+            color: #90cdf4;
+            padding: 1rem;
+            border-radius: 6px;
+            margin: 1rem 0;
+            overflow-x: auto;
+        }
+
+        .response code {
+            font-family: 'Courier New', monospace;
+            font-size: 0.875rem;
+            white-space: pre;
+        }
+
+        .note {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+
+        .info {
+            background: #d1ecf1;
+            border-left: 4px solid #17a2b8;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+
+        th, td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        th {
+            background: #f8f9fa;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .toc {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 6px;
+            margin-bottom: 2rem;
+        }
+
+        .toc ul {
+            list-style: none;
+            padding-left: 1rem;
+        }
+
+        .toc a {
+            color: #667eea;
+            text-decoration: none;
+            padding: 0.25rem 0;
+            display: block;
+        }
+
+        .toc a:hover {
+            color: #764ba2;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <h1>📖 PrayerPulse Bible API</h1>
+            <p class="subtitle">RESTful API for accessing Bible translations, verses, and search functionality</p>
+        </div>
+    </div>
+
+    <div class="content container">
+        <div class="info">
+            <strong>Base URL:</strong> <code>https://api.prayerpulse.io</code><br>
+            <strong>Version:</strong> 1.0<br>
+            <strong>Response Format:</strong> JSON
+        </div>
+
+        <div class="toc">
+            <h3>📑 Table of Contents</h3>
+            <ul>
+                <li><a href="#getting-started">Getting Started</a></li>
+                <li><a href="#authentication">Authentication</a></li>
+                <li><a href="#verses">Verse Endpoints</a></li>
+                <li><a href="#search">Search Endpoints</a></li>
+                <li><a href="#books">Books & Metadata</a></li>
+                <li><a href="#user">User Features</a></li>
+                <li><a href="#translations">Available Translations</a></li>
+                <li><a href="#errors">Error Handling</a></li>
+            </ul>
+        </div>
+
+        <h2 id="getting-started">🚀 Getting Started</h2>
+        <p>The PrayerPulse Bible API provides programmatic access to multiple Bible translations, search functionality, and user features. All endpoints return JSON responses.</p>
+
+        <div class="example">
+            <code># Example: Get John 3:16 from Young's Literal Translation
+curl https://api.prayerpulse.io/get-verse/YLT/43/3/16/</code>
+        </div>
+
+        <h3>Quick Example Response</h3>
+        <div class="response">
+            <code>{
+  "pk": 26133,
+  "verse": 16,
+  "text": "for God did so love the world, that His Son -- the only begotten -- He gave, that every one who is believing in him may not perish, but may have life age-during."
+}</code>
+        </div>
+
+        <h2 id="authentication">🔐 Authentication</h2>
+        <p>Most read endpoints do not require authentication. User-specific features (bookmarks, history, notes) require authentication via Django session or OAuth.</p>
+
+        <div class="note">
+            <strong>Note:</strong> Public endpoints have CORS enabled for cross-origin requests.
+        </div>
+
+        <h2 id="verses">📜 Verse Endpoints</h2>
+
+        <div class="endpoint">
+            <div>
+                <span class="method get">GET</span>
+                <span class="url">/get-verse/{translation}/{book}/{chapter}/{verse}/</span>
+            </div>
+            <div class="description">Get a single Bible verse</div>
+            <div class="parameters">
+                <strong>Parameters:</strong>
+                <div class="param">
+                    <span class="param-name">translation</span> - Translation code (e.g., YLT, KJV, ASV)
+                </div>
+                <div class="param">
+                    <span class="param-name">book</span> - Book number (1-66) or book name
+                </div>
+                <div class="param">
+                    <span class="param-name">chapter</span> - Chapter number
+                </div>
+                <div class="param">
+                    <span class="param-name">verse</span> - Verse number
+                </div>
+            </div>
+            <div class="example">
+                <code>curl https://api.prayerpulse.io/get-verse/YLT/1/1/1/</code>
+            </div>
+            <div class="response">
+                <code>{
+  "pk": 1,
+  "verse": 1,
+  "text": "In the beginning of God's preparing the heavens and the earth --"
+}</code>
+            </div>
+        </div>
+
+        <div class="endpoint">
+            <div>
+                <span class="method get">GET</span>
+                <span class="url">/get-text/{translation}/{book}/{chapter}/</span>
+            </div>
+            <div class="description">Get all verses from a chapter</div>
+            <div class="parameters">
+                <strong>Parameters:</strong>
+                <div class="param">
+                    <span class="param-name">translation</span> - Translation code
+                </div>
+                <div class="param">
+                    <span class="param-name">book</span> - Book number (1-66)
+                </div>
+                <div class="param">
+                    <span class="param-name">chapter</span> - Chapter number
+                </div>
+            </div>
+            <div class="example">
+                <code>curl https://api.prayerpulse.io/get-text/YLT/43/3/</code>
+            </div>
+            <div class="response">
+                <code>[
+  {"pk": 26118, "verse": 1, "text": "And there was a man..."},
+  {"pk": 26119, "verse": 2, "text": "this one came unto him..."},
+  ...
+]</code>
+            </div>
+        </div>
+
+        <div class="endpoint">
+            <div>
+                <span class="method get">GET</span>
+                <span class="url">/get-chapter/{translation}/{book}/{chapter}/</span>
+            </div>
+            <div class="description">Get chapter verses with commentaries (if available)</div>
+            <div class="example">
+                <code>curl https://api.prayerpulse.io/get-chapter/YLT/1/1/</code>
+            </div>
+        </div>
+
+        <div class="endpoint">
+            <div>
+                <span class="method get">GET</span>
+                <span class="url">/get-random-verse/{translation}/</span>
+            </div>
+            <div class="description">Get a random Bible verse</div>
+            <div class="example">
+                <code>curl https://api.prayerpulse.io/get-random-verse/YLT/</code>
+            </div>
+        </div>
+
+        <h2 id="search">🔍 Search Endpoints</h2>
+
+        <div class="endpoint">
+            <div>
+                <span class="method get">GET</span>
+                <span class="url">/search/{translation}/{query}/</span>
+            </div>
+            <div class="description">Search for verses containing specific text</div>
+            <div class="parameters">
+                <strong>Parameters:</strong>
+                <div class="param">
+                    <span class="param-name">translation</span> - Translation code
+                </div>
+                <div class="param">
+                    <span class="param-name">query</span> - Search term or phrase
+                </div>
+            </div>
+            <div class="example">
+                <code>curl https://api.prayerpulse.io/search/YLT/love/</code>
+            </div>
+            <div class="response">
+                <code>{
+  "verses": [
+    {
+      "pk": 12345,
+      "book": 43,
+      "chapter": 3,
+      "verse": 16,
+      "text": "for God did so love the world..."
+    },
+    ...
+  ]
+}</code>
+            </div>
+        </div>
+
+        <div class="endpoint">
+            <div>
+                <span class="method get">GET</span>
+                <span class="url">/find/{translation}/{query}/</span>
+            </div>
+            <div class="description">Alternative search endpoint (same as /search/)</div>
+        </div>
+
+        <div class="endpoint">
+            <div>
+                <span class="method get">GET</span>
+                <span class="url">/v2/find/{translation}/?q={query}</span>
+            </div>
+            <div class="description">Version 2 search API with query parameters</div>
+            <div class="example">
+                <code>curl https://api.prayerpulse.io/v2/find/YLT/?q=faith</code>
+            </div>
+        </div>
+
+        <h2 id="books">📚 Books & Metadata Endpoints</h2>
+
+        <div class="endpoint">
+            <div>
+                <span class="method get">GET</span>
+                <span class="url">/get-books/{translation}/</span>
+            </div>
+            <div class="description">Get list of all books in a translation</div>
+            <div class="example">
+                <code>curl https://api.prayerpulse.io/get-books/YLT/</code>
+            </div>
+            <div class="response">
+                <code>[
+  {
+    "bookid": 1,
+    "name": "Genesis",
+    "chapters": 50,
+    "chronorder": 1
+  },
+  {
+    "bookid": 2,
+    "name": "Exodus",
+    "chapters": 40,
+    "chronorder": 3
+  },
+  ...
+]</code>
+            </div>
+        </div>
+
+        <div class="endpoint">
+            <div>
+                <span class="method get">GET</span>
+                <span class="url">/get-verse-counts/{translation}/</span>
+            </div>
+            <div class="description">Get verse counts for all books</div>
+        </div>
+
+        <div class="endpoint">
+            <div>
+                <span class="method get">GET</span>
+                <span class="url">/get-translation/{translation}/</span>
+            </div>
+            <div class="description">Download entire translation as JSON (large response)</div>
+            <div class="note">
+                <strong>Warning:</strong> This endpoint returns all verses (~31,000) and may take time to process. Use with caution.
+            </div>
+        </div>
+
+        <h2 id="user">👤 User Features (Authentication Required)</h2>
+
+        <div class="endpoint">
+            <div>
+                <span class="method post">POST</span>
+                <span class="url">/save-bookmarks/</span>
+            </div>
+            <div class="description">Save user bookmarks</div>
+        </div>
+
+        <div class="endpoint">
+            <div>
+                <span class="method post">POST</span>
+                <span class="url">/delete-bookmarks/</span>
+            </div>
+            <div class="description">Delete user bookmarks</div>
+        </div>
+
+        <div class="endpoint">
+            <div>
+                <span class="method get">GET</span>
+                <span class="url">/get-bookmarks/{translation}/{book}/{chapter}/</span>
+            </div>
+            <div class="description">Get bookmarks for a specific chapter</div>
+        </div>
+
+        <div class="endpoint">
+            <div>
+                <span class="method get">GET</span>
+                <span class="url">/get-profile-bookmarks/{range_from}/{range_to}/</span>
+            </div>
+            <div class="description">Get user's bookmarks with pagination</div>
+        </div>
+
+        <div class="endpoint">
+            <div>
+                <span class="method post">POST</span>
+                <span class="url">/history/</span>
+            </div>
+            <div class="description">Save reading history</div>
+        </div>
+
+        <div class="endpoint">
+            <div>
+                <span class="method get">GET</span>
+                <span class="url">/download-notes/</span>
+            </div>
+            <div class="description">Export user notes</div>
+        </div>
+
+        <div class="endpoint">
+            <div>
+                <span class="method post">POST</span>
+                <span class="url">/import-notes/</span>
+            </div>
+            <div class="description">Import user notes</div>
+        </div>
+
+        <h2 id="translations">🌍 Available Translations</h2>
+        <p>The following Bible translations are currently available in the API:</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Code</th>
+                    <th>Name</th>
+                    <th>Language</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>YLT</td><td>Young's Literal Translation</td><td>English</td></tr>
+                <tr><td>KJV</td><td>King James Version</td><td>English</td></tr>
+                <tr><td>ASV</td><td>American Standard Version</td><td>English</td></tr>
+                <tr><td>BSB</td><td>Berean Study Bible</td><td>English</td></tr>
+                <tr><td>AMP</td><td>Amplified Bible</td><td>English</td></tr>
+                <tr><td>CEB</td><td>Common English Bible</td><td>English</td></tr>
+                <tr><td colspan="3" style="text-align: center;"><em>...and many more</em></td></tr>
+            </tbody>
+        </table>
+
+        <div class="info">
+            To see all available translations, visit: <code>/get-books/{translation}/</code> or check the static files directory.
+        </div>
+
+        <h2>📖 Book Reference Numbers</h2>
+        <p>Books are referenced by their canonical order (1-66):</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Book #</th>
+                    <th>Name</th>
+                    <th>Book #</th>
+                    <th>Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>1</td><td>Genesis</td><td>40</td><td>Matthew</td></tr>
+                <tr><td>2</td><td>Exodus</td><td>41</td><td>Mark</td></tr>
+                <tr><td>3</td><td>Leviticus</td><td>42</td><td>Luke</td></tr>
+                <tr><td>4</td><td>Numbers</td><td>43</td><td>John</td></tr>
+                <tr><td>5</td><td>Deuteronomy</td><td>44</td><td>Acts</td></tr>
+                <tr><td colspan="4" style="text-align: center;"><em>...see full list via /get-books/ endpoint</em></td></tr>
+            </tbody>
+        </table>
+
+        <h2 id="errors">⚠️ Error Handling</h2>
+        <p>The API uses standard HTTP response codes:</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Code</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>200</td><td>Success</td></tr>
+                <tr><td>400</td><td>Bad Request - Invalid parameters</td></tr>
+                <tr><td>404</td><td>Not Found - Resource doesn't exist</td></tr>
+                <tr><td>500</td><td>Internal Server Error</td></tr>
+            </tbody>
+        </table>
+
+        <h2>💡 Best Practices</h2>
+        <ul style="margin-left: 2rem; margin-top: 1rem;">
+            <li>Use specific verse endpoints when possible instead of downloading entire translations</li>
+            <li>Cache responses on your client to reduce API calls</li>
+            <li>Include proper error handling for network failures</li>
+            <li>Use HTTPS for all requests</li>
+            <li>Respect rate limits (if implemented)</li>
+        </ul>
+
+        <h2>📞 Support</h2>
+        <p>For questions, issues, or feature requests:</p>
+        <ul style="margin-left: 2rem; margin-top: 1rem;">
+            <li><strong>Email:</strong> admin@prayerpulse.io</li>
+            <li><strong>Admin Panel:</strong> <a href="/admin/">https://api.prayerpulse.io/admin/</a></li>
+        </ul>
+
+        <hr style="margin: 2rem 0; border: none; border-top: 1px solid #dee2e6;">
+
+        <p style="text-align: center; color: #6c757d; font-size: 0.875rem;">
+            PrayerPulse Bible API v1.0 | Self-Hosted | Last Updated: November 2025
+        </p>
+    </div>
+</body>
+</html>
