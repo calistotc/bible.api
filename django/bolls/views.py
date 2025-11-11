@@ -324,7 +324,8 @@ def edit_account(request):
 def get_bookmarks(request, translation, book, chapter):
     if not request.user.is_authenticated:
         return JsonResponse([], safe=False)
-    user_bookmarks = request.user.bookmarks_set.filter(verse__translation=translation, verse__book=book, verse__chapter=chapter)
+    bookid = get_book_id(translation, book)
+    user_bookmarks = request.user.bookmarks_set.filter(verse__translation=translation, verse__book=bookid, verse__chapter=chapter)
 
     if len(user_bookmarks) == 0:
         return JsonResponse([], safe=False)
