@@ -537,7 +537,7 @@ def get_a_verse(_, translation, book, chapter, verse):
         else:
             return cross_origin(HttpResponse("The verse is not found", status=404))
 
-        commentaries = Commentary.objects.filter(book=book, chapter=chapter, translation=translation, verse=verse)
+        commentaries = Commentary.objects.filter(book=bookid, chapter=chapter, translation=translation, verse=verse)
 
         comment = ""
         for item in commentaries:
