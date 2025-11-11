@@ -51,7 +51,7 @@ services:
       prayerpulse-db:
         condition: service_healthy
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/get-text/YLT/1/1/"]
+      test: ["CMD", "curl", "-f", "http://localhost:8000/bible/get-text/YLT/1/1/"]
       interval: 30s
       timeout: 10s
       retries: 3
