@@ -637,6 +637,46 @@
         <section id="whats-new" class="section">
             <h2>🎉 What's New</h2>
 
+            <h3>🌍 Multilingual Support - Get Languages Endpoint</h3>
+            <div class="info-box">
+                <strong>New Endpoint:</strong> <span class="inline-code">/bible/get-languages/</span> - Access 150+ Bible translations organized by language!
+            </div>
+
+            <p>Build truly multilingual Bible apps with our new language-organized endpoint. Get all translations grouped by their native language:</p>
+
+            <div class="code-block">
+                <div class="code-label">🌐 Fetch All Languages</div>
+                <div class="code-wrapper">
+                    <button class="copy-button" onclick="copyCode(this)">Copy</button>
+                    <pre><code>curl https://api.prayerpulse.io/bible/get-languages/</code></pre>
+                </div>
+            </div>
+
+            <p><strong>Supported Languages (27 total):</strong></p>
+            <ul>
+                <li>🇺🇸 English - 40+ translations (KJV, NIV, ESV, NASB, NLT, etc.)</li>
+                <li>🇪🇸 Spanish - 7+ translations (Reina-Valera 1960, NVI, NTV, etc.)</li>
+                <li>🇵🇹 Portuguese - 14+ translations (Almeida, NVI, NTLH, etc.)</li>
+                <li>🇺🇦 Ukrainian - 12+ translations</li>
+                <li>🇷🇺 Russian - 7+ translations</li>
+                <li>🇨🇳 Chinese - 5+ translations (Traditional & Simplified)</li>
+                <li>🇰🇷 Korean - 2 translations</li>
+                <li>🇯🇵 Japanese - 3 translations</li>
+                <li>🇩🇪 German - 6 translations</li>
+                <li>🇫🇷 French - 5 translations</li>
+                <li>🇮🇱 Hebrew - 5 translations (with vowels, accents, Strong's numbers)</li>
+                <li>🇬🇷 Greek - 4 translations (Septuagint, Textus Receptus, Tischendorf)</li>
+                <li>🇸🇦 Arabic - 1 translation (with RTL support)</li>
+                <li>🇮🇷 Farsi - 2 translations (with RTL support)</li>
+                <li>And 13 more languages: Dutch, Czech, Hindi, Malayalam, Nepali, Indonesian, Tamil, Polish, Romanian, Norwegian, Swahili, Swedish, Vietnamese</li>
+            </ul>
+
+            <div class="info-box">
+                <strong>💡 Perfect for:</strong> Building language selectors, regional apps, or Bible study tools that serve international audiences. Each translation includes metadata like last update timestamp and text direction (RTL for Hebrew/Arabic/Farsi).
+            </div>
+
+            <p><strong>See it in action:</strong> <a href="#translations-list" style="color: var(--accent-primary);">View full endpoint documentation →</a></p>
+
             <h3>📖 User-Friendly Book Codes</h3>
             <div class="info-box">
                 <strong>Major Update:</strong> All Bible API endpoints now support intuitive book names instead of just numeric IDs!
