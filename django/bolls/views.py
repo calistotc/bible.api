@@ -24,7 +24,7 @@ from bolls.forms import SignUpForm
 
 from .models import Verses, Bookmarks, History, Note, Commentary, Dictionary
 
-from .utils.books import BOOKS, get_book_id, is_number, clean_text
+from .utils.books import BOOKS, get_book_id, is_number, clean_text, triple_shortcuts
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -933,10 +933,39 @@ def get_dictionary(_, dictionary):
 
 
 def get_books(_, translation):
+    """
+    Get list of books for a translation with clean, user-friendly names.
+
+    Returns book data optimized for navigation with:
+    - id: 3-letter book code (e.g., "GEN", "MAT", "REV")
+    - bookid: Numeric book ID (1-66)
+    - name: Clean book name (e.g., "Genesis", "Matthew", "Revelation")
+    - chapters: Number of chapters in the book
+    """
     try:
-        return cross_origin(JsonResponse(BOOKS[translation], safe=False))
-    except:
+        books_data = BOOKS[translation]
+
+        # Reverse lookup dictionary: bookid -> 3-letter code
+        bookid_to_code = {v: k for k, v in triple_shortcuts.items()}
+
+        # Enhanced book list with clean IDs for easier navigation
+        enhanced_books = []
+        for book in books_data:
+            book_id = book["bookid"]
+            three_letter_code = bookid_to_code.get(book_id, f"B{book_id:02d}")  # Fallback for non-standard books
+
+            enhanced_books.append({
+                "id": three_letter_code,  # e.g., "GEN", "EXO", "MAT"
+                "bookid": book_id,  # Numeric ID: 1-66
+                "name": book["name"],  # Clean name: "Genesis", "Matthew"
+                "chapters": book["chapters"]
+            })
+
+        return cross_origin(JsonResponse(enhanced_books, safe=False))
+    except KeyError:
         return cross_origin(HttpResponse("There is no such translation: " + translation, status=404))
+    except Exception as e:
+        return cross_origin(HttpResponse(f"Error loading books: {str(e)}", status=500))
 
 
 def download_notes(request):
